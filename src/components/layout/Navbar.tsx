@@ -10,7 +10,9 @@ export default function Navbar() {
     <header className="sticky top-0 bg-white py-4 px-12 w-full z-50 shadow-md">
       <nav className="flex items-center justify-between my-4 relative">
         <div>
-          <Image src={Logo} width={200} height={200} alt="Logo" />
+          <Link href={"/"}>
+            <Image src={Logo} width={200} height={200} alt="Logo" />
+          </Link>
         </div>
 
         <button
