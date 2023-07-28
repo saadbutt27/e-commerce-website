@@ -4,7 +4,7 @@ import { client } from "@/lib/sanityClient";
 import { Image as IImage } from "sanity";
 import { urlForImage } from "../../../sanity/lib/image";
 
-export const getProductData = async () => {
+const getProductData = async () => {
   const res = await client.fetch(`*[_type=="product"] {
       price, 
       _id,
@@ -28,7 +28,7 @@ interface IProduct {
   category: string;
 }
 
-export default async function MaleProducts() {
+export default async function AllProducts() {
   const data: IProduct[] = await getProductData();
 
   return (
@@ -39,6 +39,7 @@ export default async function MaleProducts() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-10">
         {data.map((product, index) => (
           <Product
+            key={index}
             imgSrc={urlForImage(product.image).url()}
             productName={product.title}
             productPrice={product.price}

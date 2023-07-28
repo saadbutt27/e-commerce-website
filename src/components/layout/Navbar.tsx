@@ -89,16 +89,16 @@ export default function Navbar() {
           <div>
             <ul className="text-lg font-semibold">
               <li className="mb-6">
-                <Link href={"#"}>Male</Link>
+                <Link href={"/MaleProducts"}>Male</Link>
               </li>
               <li className="mb-6">
-                <Link href={"#"}>Female</Link>
+                <Link href={"/FemaleProducts"}>Female</Link>
               </li>
               <li className="mb-6">
-                <Link href={"#"}>Kids</Link>
+                <Link href={"/KidsProducts"}>Kids</Link>
               </li>
               <li className="mb-6">
-                <Link href={"#"}>All Products</Link>
+                <Link href={"/AllProducts"}>All Products</Link>
               </li>
             </ul>
           </div>
