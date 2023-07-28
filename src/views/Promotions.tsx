@@ -6,7 +6,7 @@ import Prom3 from "/public/images/prom3.webp";
 
 export default function Promotions() {
   return (
-    <>
+    <section className="mb-20">
       <h3 className="uppercase text-base text-center mb-2 text-blue-700 font-semibold">
         Promotions
       </h3>
@@ -52,13 +52,9 @@ export default function Promotions() {
               <span className="line-through font-normal">$225.00</span> $190.00
             </p>
           </div>
-          <Image
-            className="max-w-full rounded-lg mx-auto"
-            src={Prom3}
-            alt=""
-          />
+          <Image className="max-w-full rounded-lg mx-auto" src={Prom3} alt="" />
         </div>
       </div>
-    </>
+    </section>
   );
 }

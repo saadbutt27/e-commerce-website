@@ -4,6 +4,7 @@ import ProductCard from "@/components/ProductCard";
 import Hero from "@/views/Hero";
 import ProductsList from "@/views/ProductsList";
 import Promotions from "@/views/Promotions";
+import Newsletter from "@/views/Newsletter";
 
 export const getProductData = async () => {
   const res = await client.fetch(`*[_type=="product"] {
@@ -31,19 +32,12 @@ interface IProduct {
 
 export default async function Home() {
   const data: IProduct[] = await getProductData();
-
   return (
-    // <div className="grid grid-cols-[repeat(3,auto)] justify-center gap-10">
-    //   {data.map((product, index) => (
-    //     <div>
-    //       <ProductCard product={product} />
-    //     </div>
-    //   ))}
-    // </div>
     <>
       <Hero />
       <Promotions />
-      {/* <ProductsList /> */}
+      <ProductsList />
+      <Newsletter />
     </>
   );
 }

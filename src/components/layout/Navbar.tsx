@@ -1,13 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import Logo from "../../public/Logo.webp";
+import Logo from "../../../public/Logo.webp";
 import Link from "next/link";
 
 export default function Navbar() {
   const [toggleNav, setToggleNav] = useState(false); // make responsive navbar with hamburger menu
   return (
-    <header className="sticky top-0 bg-white py-4 px-8 w-full z-50 shadow-md">
+    <header className="sticky top-0 bg-white py-4 px-12 w-full z-50 shadow-md">
       <nav className="flex items-center justify-between my-4 relative">
         <div>
           <Image src={Logo} width={200} height={200} alt="Logo" />
@@ -105,18 +105,18 @@ export default function Navbar() {
         </div>
         {/* This one is for mobile view */}
         <div className="hidden lg:block">
-          <ul className="flex gap-x-6 text-lg font-semibold">
+          <ul className="flex gap-x-10 text-lg font-semibold">
             <li>
-              <Link href={"#"}>Male</Link>
+              <Link href={"/MaleProducts"}>Male</Link>
             </li>
             <li>
-              <Link href={"#"}>Female</Link>
+              <Link href={"/FemaleProducts"}>Female</Link>
             </li>
             <li>
-              <Link href={"#"}>Kids</Link>
+              <Link href={"/KidsProducts"}>Kids</Link>
             </li>
             <li>
-              <Link href={"#"}>All Products</Link>
+              <Link href={"/AllProducts"}>All Products</Link>
             </li>
           </ul>
         </div>
