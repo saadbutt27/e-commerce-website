@@ -1,13 +1,11 @@
-"use client";
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
-import { useState } from "react";
+import Quantity from "../../../components/reusable/quantity";
 import { client } from "@/lib/sanityClient";
 import { Image as IImage } from "sanity";
 import { urlForImage } from "../../../../sanity/lib/image";
-import { av } from "drizzle-orm/db.d-cf0abe10";
 
 interface IProduct {
   id: string;
@@ -59,8 +57,6 @@ export default async function ProductDetails({
 }: {
   params: { slug: string };
 }) {
-  const [quantity, setQuantity] = useState(1);
-
   const product: IProduct[] = await getProductData(params.slug);
 
   return (
@@ -91,24 +87,7 @@ export default async function ProductDetails({
                 ))}
             </div>
           </div>
-          <div className="flex items-center justify-between space-y-2">
-            <p className="text-base font-semibold">Quantity</p>
-            <div className="flex-1 flex items-center justify-evenly">
-              <Button
-                onClick={() => quantity !== 1 && setQuantity(quantity - 1)}
-                className="bg-gray-100 rounded-full text-gray-600 text-2xl shadow-lg hover:scale-105 duration-300"
-              >
-                -
-              </Button>
-              <p>{quantity}</p>
-              <Button
-                onClick={() => setQuantity(quantity + 1)}
-                className="bg-gray-100 rounded-full text-gray-600 text-2xl shadow-lg hover:scale-105 duration-300"
-              >
-                +
-              </Button>
-            </div>
-          </div>
+          <Quantity />
           <div className="flex items-center space-x-4">
             <Button className="flex justify-center items-center bg-black text-white py-3 gap-2">
               <ShoppingCart />
