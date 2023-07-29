@@ -6,6 +6,7 @@ import Quantity from "../../../components/reusable/quantity";
 import { client } from "@/lib/sanityClient";
 import { Image as IImage } from "sanity";
 import { urlForImage } from "../../../../sanity/lib/image";
+import AddToCart from "@/components/reusable/addToCart";
 
 interface IProduct {
   id: string;
@@ -35,23 +36,6 @@ const getProductData = async (id: string) => {
   return res;
 };
 
-// const sizesButton = (sizes: string[]) => {
-//   let availableSizes: string[] = [""];
-//   for (let i = 0; i < sizes.length; i++) {
-//     if (sizes[i].toLowerCase() == "extra small") {
-//       availableSizes.push("XS");
-//     } else if (sizes[i].toLowerCase() == "small") {
-//       availableSizes.push("S");
-//     } else if (sizes[i].toLowerCase() == "medium") {
-//       availableSizes.push("M");
-//     } else if (sizes[i].toLowerCase() == "large") {
-//       availableSizes.push("L");
-//     } else if (sizes[i].toLowerCase() == "extra large") {
-//       availableSizes.push("XL");
-//     }
-//   }
-//   return availableSizes;
-// };
 export default async function ProductDetails({
   params,
 }: {
@@ -81,20 +65,29 @@ export default async function ProductDetails({
             <div>
               {product[0].sizes &&
                 product[0].sizes.map((size, index) => (
-                  <Button key={index} className="hover:bg-gray-100 rounded-full hover:rounded-full text-gray-600 duration-300 hover:shadow-lg">
+                  <Button
+                    key={index}
+                    className="hover:bg-gray-100 rounded-full hover:rounded-full text-gray-600 duration-300 hover:shadow-lg"
+                  >
                     {size}
                   </Button>
                 ))}
             </div>
           </div>
           <Quantity />
-          <div className="flex items-center space-x-4">
-            <Button className="flex justify-center items-center bg-black text-white py-3 gap-2">
+          {/* <div className="flex items-center space-x-4">
+            <Button
+              // onClick={handleAddToCart}
+              className="flex justify-center items-center bg-black text-white py-3 gap-2"
+            >
               <ShoppingCart />
               Add to Cart
             </Button>
-            <p className="text-xl font-semibold">${product[0].price}</p>
-          </div>
+            <p className="text-xl font-semibold">
+              ${product[0].price.toFixed(2)}
+            </p>
+          </div> */}
+          <AddToCart price={product[0].price}/>
         </div>
       </div>
       <div className="mt-16 flex flex-col gap-8">
