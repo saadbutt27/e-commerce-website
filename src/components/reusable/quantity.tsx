@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-export default function quantity() {
+export default function Quantity() {
   const [quantity, setQuantity] = useState(1);
   return (
     <div className="flex items-center justify-between space-y-2">
