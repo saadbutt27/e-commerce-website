@@ -81,7 +81,7 @@ export default async function ProductDetails({
             <div>
               {product[0].sizes &&
                 product[0].sizes.map((size, index) => (
-                  <Button className="hover:bg-gray-100 rounded-full hover:rounded-full text-gray-600 duration-300 hover:shadow-lg">
+                  <Button key={index} className="hover:bg-gray-100 rounded-full hover:rounded-full text-gray-600 duration-300 hover:shadow-lg">
                     {size}
                   </Button>
                 ))}
