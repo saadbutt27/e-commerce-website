@@ -3,6 +3,7 @@ import Product from "../../components/reusable/product";
 import { client } from "@/lib/sanityClient";
 import { Image as IImage } from "sanity";
 import { urlForImage } from "../../../sanity/lib/image";
+import Link from "next/link";
 
 const getProductData = async () => {
   const res =
@@ -20,7 +21,7 @@ const getProductData = async () => {
 };
 
 interface IProduct {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   price: number;
@@ -37,13 +38,14 @@ export default async function MaleProducts() {
       <h1 className="capitalize text-5xl text-center font-bold mb-10">
         Male Products
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-8     gap-x-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-10">
         {data.map((product, index) => (
           <Product
             key={index}
             imgSrc={urlForImage(product.image).url()}
             productName={product.title}
             productPrice={product.price}
+            productId={product._id}
           />
         ))}
       </div>

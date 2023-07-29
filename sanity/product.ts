@@ -26,6 +26,16 @@ export const product = defineType({
       type: "number",
     }),
     defineField({
+      name: "sizes",
+      title: "Product Size",
+      type: "array",
+      of: [{
+        name: "size",
+        title: "Size",
+        type: "string"
+      }]
+    }),
+    defineField({
       name: "image",
       title: "Product Image",
       type: "image",

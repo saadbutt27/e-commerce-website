@@ -20,7 +20,7 @@ const getProductData = async () => {
 };
 
 interface IProduct {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   price: number;
@@ -44,6 +44,7 @@ export default async function FemaleProducts() {
             imgSrc={urlForImage(product.image).url()}
             productName={product.title}
             productPrice={product.price}
+            productId={product._id}
           />
         ))}
       </div>
