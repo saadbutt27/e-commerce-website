@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <section className="px-12 mt-48">
+    <section className="px-12 mt-20">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 md:gap-y-0">
         <div className="grid gap-y-4 mr-20">
           <Image src={Logo} width={200} height={200} alt="Logo" />
@@ -111,8 +111,10 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-      <div className="border-t-2 border-t-gray-400 mt-10 flex justify-between p-4 text-lg">
-        <h4>Copyright © 2023 <strong>Dine Market</strong></h4>
+      <div className="border-t-2 border-t-gray-400 mt-10 flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between px-0 py-4 md:p-4 text-lg">
+        <h4>
+          Copyright © 2023 <strong>Dine Market</strong>
+        </h4>
         <h4>
           Design by. <strong>Our Designs</strong>
         </h4>

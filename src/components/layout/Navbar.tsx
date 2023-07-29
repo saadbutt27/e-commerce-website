@@ -16,7 +16,7 @@ export default function Navbar() {
         </div>
 
         <button
-          className={`block lg:hidden ${toggleNav ? "hidden" : "block"}`}
+          className={`block md:hidden ${toggleNav ? "hidden" : "block"}`}
           onClick={() => setToggleNav(!toggleNav)}
         >
           <svg
@@ -106,7 +106,7 @@ export default function Navbar() {
           </div>
         </div>
         {/* This one is for mobile view */}
-        <div className="hidden lg:block">
+        <div className="hidden md:block">
           <ul className="flex gap-x-10 text-lg font-semibold">
             <li>
               <Link href={"/MaleProducts"}>Male</Link>
@@ -154,7 +154,7 @@ export default function Navbar() {
             placeholder="What are you looking for?"
           />
         </div> */}
-        <div className="hidden lg:block">
+        <div className="hidden md:block">
           <button className="bg-gray-100 rounded-full p-2 relative">
             <svg
               stroke="currentColor"
