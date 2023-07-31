@@ -74,19 +74,7 @@ export default async function ProductDetails({
             </div>
           </div>
           <Quantity />
-          {/* <div className="flex items-center space-x-4">
-            <Button
-              // onClick={handleAddToCart}
-              className="flex justify-center items-center bg-black text-white py-3 gap-2"
-            >
-              <ShoppingCart />
-              Add to Cart
-            </Button>
-            <p className="text-xl font-semibold">
-              ${product[0].price.toFixed(2)}
-            </p>
-          </div> */}
-          <AddToCart price={product[0].price}/>
+          <AddToCart id={product[0].id} price={product[0].price} />
         </div>
       </div>
       <div className="mt-16 flex flex-col gap-8">
