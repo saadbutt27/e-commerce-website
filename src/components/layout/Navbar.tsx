@@ -1,12 +1,14 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Image from "next/image";
 import Logo from "../../../public/Logo.webp";
 import Link from "next/link";
+import { CartContext } from "@/components/context/CartContext";
 
-export default function Navbar() {
+export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
   const [toggleNav, setToggleNav] = useState(false); // make responsive navbar with hamburger menu
-  let cartCount = 0;
+  const { cartCount } = useContext(CartContext);
+
   return (
     <header className="sticky top-0 bg-white py-4 px-12 w-full z-50 shadow-md">
       <nav className="flex items-center justify-between my-4 relative">
@@ -86,7 +88,7 @@ export default function Navbar() {
                   ></path>
                 </svg>
                 <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900">
-                  {cartCount}
+                  {cartCount + cartItemsCount}
                 </div>
               </button>
             </Link>
@@ -153,7 +155,7 @@ export default function Navbar() {
                 ></path>
               </svg>
               <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900">
-                {cartCount}
+                {cartCount + cartItemsCount}
               </div>
             </button>
           </Link>

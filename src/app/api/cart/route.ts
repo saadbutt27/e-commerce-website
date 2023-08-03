@@ -2,23 +2,22 @@ import { NextRequest, NextResponse } from "next/server";
 import { db, cartTable } from "@/lib/drizzle";
 import { v4 as randomIdGenerator } from "uuid";
 import { cookies } from "next/headers";
-import { eq } from "drizzle-orm";
-
-fetch(`http://localhost:3000/api/cart?user_id${cookies().get("user_id")?.value}`)
+import { eq, and, sql } from "drizzle-orm";
+import product from "@/components/reusable/product";
 
 export const GET = async (request: NextRequest) => {
   const req = request.nextUrl;
   const uid = req.searchParams.get("user_id") as string;
 
   try {
-    if (!uid) {
+    if (uid) {
       const res = await db
         .select()
         .from(cartTable)
         .where(eq(cartTable.user_id, uid));
       return NextResponse.json(res);
     } else {
-        throw new Error("You ar not logged in!")
+      throw new Error("You are not logged in!");
     }
   } catch (error) {
     console.log(error);
@@ -37,19 +36,74 @@ export const POST = async (request: NextRequest) => {
   if (!user_id) {
     setCookies.set("user_id", uid);
   }
-
+  console.log("q ", req.product_id, req.quantity);
+  let res;
   try {
-    const res = await db
-      .insert(cartTable)
-      .values({
-        product_id: req.product_id,
-        quantity: 1,
-        user_id: cookies().get("user_id")?.value as string,
-        size: 'L'
-      })
-      .returning();
+    res = await db
+      .select()
+      .from(cartTable)
+      .where(eq(cartTable.product_id, req.product_id));
+    console.log("API ", res);
+    if (res.length === 0) {
+      res = await db
+        .insert(cartTable)
+        .values({
+          product_id: req.product_id,
+          quantity: req.quantity,
+          user_id: cookies().get("user_id")?.value as string,
+          size: "L",
+        })
+        .returning();
+    } else {
+      return NextResponse.json({ res: false });
+    }
     return NextResponse.json(res);
   } catch (error) {
     console.log(error);
   }
 };
+
+export const PUT = async (request: NextRequest) => {
+  const req = await request.json();
+  let uid = cookies().get("user_id")?.value as string;
+
+  try {
+    const res = await db
+      .update(cartTable)
+      .set({
+        quantity: sql`${cartTable.quantity} + ${req.quantity}`,
+      })
+      .where(
+        and(
+          eq(cartTable.product_id, req.product_id),
+          eq(cartTable.user_id, uid)
+        )
+      )
+      .returning();
+    console.log(res);
+    return NextResponse.json(res);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// export const DELETE = async (request: NextRequest) => {
+//   const req = await request.json();
+//   let uid = cookies().get("user_id")?.value as string;
+//   console.log(req.product_id, uid);
+//   try {
+//     const res = await db
+//       .delete(cartTable)
+//       .where(
+//         and(
+//           eq(cartTable.product_id, req.product_id),
+//           eq(cartTable.user_id, uid)
+//         )
+//       )
+//       .returning();
+//     console.log(res);
+//     return NextResponse.json(res);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };

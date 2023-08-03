@@ -6,9 +6,10 @@ import { client } from "@/lib/sanityClient";
 import { Image as IImage } from "sanity";
 import { urlForImage } from "../../../../sanity/lib/image";
 import AddToCart from "@/components/reusable/addToCart";
+import Q_A from "@/components/reusable/Q_A";
 
 interface IProduct {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   price: number;
@@ -73,8 +74,9 @@ export default async function ProductDetails({
                 ))}
             </div>
           </div>
-          <Quantity />
-          <AddToCart id={product[0].id} price={product[0].price} />
+          {/* <Quantity q={null} />
+          <AddToCart product={product[0]} /> */}
+          <Q_A product={product[0]} />
         </div>
       </div>
       <div className="mt-16 flex flex-col gap-8">
