@@ -8,9 +8,8 @@ import { CartContext } from "@/components/context/CartContext";
 export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
   const [toggleNav, setToggleNav] = useState(false); // make responsive navbar with hamburger menu
   const { cartCount } = useContext(CartContext);
-
   return (
-    <header className="sticky top-0 bg-white py-4 px-12 w-full z-50 shadow-md">
+    <header className="sticky top-0 bg-white py-4 px-24 w-full z-50 shadow-md">
       <nav className="flex items-center justify-between my-4 relative">
         <div>
           <Link href={"/"}>
@@ -40,7 +39,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
 
         {/* This one is for mobile view */}
         <div
-          className={`absolute w-full bg-white text-black flex flex-col mx-auto text-center gap-y-8 shadow-lg ${
+          className={`md:hidden absolute w-full bg-white text-black flex flex-col mx-auto text-center gap-y-8 shadow-lg ${
             toggleNav ? " top-0 duration-300" : " -top-96 duration-300"
           }`}
         >
@@ -110,7 +109,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
             </ul>
           </div>
         </div>
-        {/* This one is for mobile view */}
+        {/* This one is for computer's view */}
         <div className="hidden md:block">
           <ul className="flex gap-x-10 text-lg font-semibold">
             <li>

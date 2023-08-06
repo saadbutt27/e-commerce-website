@@ -6,7 +6,6 @@ import { ShoppingCart } from "lucide-react";
 
 async function getData() {
   let user_id = cookies().get("user_id")?.value;
-
   if (user_id) {
     try {
       const res = await fetch(

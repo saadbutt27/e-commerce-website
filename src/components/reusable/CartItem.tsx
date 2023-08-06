@@ -63,7 +63,7 @@ export default async function CartItem({
               {product[0].type}
             </p>
           </div>
-          <DeleteComp product_id={product_id} />
+          <DeleteComp product_id={product_id} quantity={quantity} />
         </div>
         <div className="w-full grid grid-cols-1 lg:grid-cols-2 items-center">
           <p className="text-base font-semibold">

@@ -52,15 +52,17 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   let products: Product[] = await getData();
-  // const count = products.length;
-  const totalQuantity = products.reduce((acc, item) => acc + item.quantity, 0);
+  let totalQuantity = 0;
+  if (products) {
+    totalQuantity = products.reduce((acc, item) => acc + item.quantity, 0);
+  }
 
   return (
     <html lang="en">
       <body>
         <CartProvider>
           <Navbar cartItemsCount={totalQuantity} />
-          <main className="p-12">{children}</main>
+          <main className="p-24">{children}</main>
           <Footer />
           <Toaster />
         </CartProvider>

@@ -21,6 +21,7 @@ interface IProduct {
 export default function Q_A(item: { product: IProduct }) {
   const [quantity, setQuantity] = useState(1);
   const { cartCount, setCartCount } = useContext(CartContext);
+
   const notify = (message: string) =>
     toast(message, {
       duration: 4000,
@@ -56,12 +57,14 @@ export default function Q_A(item: { product: IProduct }) {
     });
 
     const result = await res.json();
-    console.log("QA Component ", result);
-    if (result.res) {
+
+    // console.log(res.ok);
+    // console.log("QA Component ", result);
+    // console.log(result);
+    if (res.ok && result.res !== false) {
       notify("Product has been added to cart.");
-      setCartCount((prevCount: number) => prevCount + quantity);
     } else {
-      console.log("update now");
+      // console.log("update now");
       const res = await fetch("http://localhost:3000/api/cart", {
         method: "PUT",
         body: JSON.stringify({
@@ -74,6 +77,7 @@ export default function Q_A(item: { product: IProduct }) {
       notify("Cart has been updated.");
       console.log("PUT ", result);
     }
+    setCartCount((prevCount: number) => prevCount + quantity);
   };
   return (
     <>
