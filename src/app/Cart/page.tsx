@@ -1,31 +1,42 @@
+"use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import CartItem from "@/components/reusable/CartItem";
-import { cookies } from "next/headers";
 import { ShoppingCart } from "lucide-react";
+import { IProduct } from "@/lib/types";
+import { client } from "@/lib/sanityClient";
+
+const getProductData = async (id: string[]) => {
+  const res = await client.fetch(`*[_type=="product" && _id in [${id}]] {
+      price, 
+      _id,
+      title,
+      type,
+      image,
+      description,
+      sizes[],
+      category -> {
+        name
+      }
+    }`);
+  return res;
+};
 
 async function getData() {
-  let user_id = cookies().get("user_id")?.value;
-  if (user_id) {
-    try {
-      const res = await fetch(
-        `http://localhost:3000/api/cart?user_id=${user_id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!res.ok) throw new Error("Failed to fetch data");
-      const products = await res.json();
-      return products;
-    } catch (error) {
-      console.log("error: ", error);
-    }
-  } else {
-    return null;
+  try {
+    console.log("getData called");
+    const res = await fetch(process.env.NEXT_PUBLIC_SITE_URL + "api/cart", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) throw new Error("Failed to fetch data");
+    const products = await res.json();
+    if (products.res === false) return null;
+    return products;
+  } catch (error) {
+    console.log("error: ", error);
   }
 }
 
@@ -36,9 +47,10 @@ type Product = {
   quantity: number;
   size: string;
 };
+
 export default async function Cart() {
   let products: Product[] = await getData();
-  // console.log("products:", products);
+  let subTotal = 10
   return (
     <section>
       <h2 className="text-4xl font-bold">Shopping Cart</h2>
@@ -75,7 +87,7 @@ export default async function Cart() {
                         </p>
                       </div>
                       <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                        $320
+                        ${subTotal + 0}
                       </div>
                     </div>
                   </li>
@@ -99,7 +111,7 @@ export default async function Cart() {
                         </p>
                       </div>
                       <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                        $67
+                        ${subTotal + 10}
                       </div>
                     </div>
                   </li>

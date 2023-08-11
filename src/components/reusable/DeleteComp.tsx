@@ -14,6 +14,8 @@ export default async function DeleteComp({
   quantity: number;
 }) {
   const { cartCount, setCartCount } = useContext(CartContext);
+  // console.log("Cart Items Count:", cartCount);
+
   const notify = (message: string) =>
     toast(message, {
       duration: 4000,
@@ -51,10 +53,15 @@ export default async function DeleteComp({
         }
       );
       if (!res.ok) throw new Error("Deleteion Failed!");
+      else {
+        notify("Product has been deleted from cart.");
+        setCartCount((prevCount: number) => prevCount - quantity);
+      }
     } catch (error) {
       console.log("error: ", error);
     }
   };
+
   return (
     <Button onClick={hadleDelete} className="justify-self-end">
       <Trash2 />

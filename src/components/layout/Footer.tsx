@@ -19,7 +19,7 @@ export default function Footer() {
                 <svg
                   stroke="currentColor"
                   fill="currentColor"
-                  stroke-width="0"
+                  strokeWidth="0"
                   viewBox="0 0 320 512"
                   className="text-black h-4 md:h-6 w-4 md:w-6"
                   height="1em"
@@ -38,7 +38,7 @@ export default function Footer() {
                 <svg
                   stroke="currentColor"
                   fill="currentColor"
-                  stroke-width="0"
+                  strokeWidth="0"
                   viewBox="0 0 512 512"
                   className="text-black h-4 md:h-6 w-4 md:w-6"
                   height="1em"

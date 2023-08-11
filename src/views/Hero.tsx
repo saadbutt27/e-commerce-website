@@ -11,7 +11,7 @@ import Instyle from "/public/images/instyle.webp";
 
 export default function Hero() {
   return (
-    <section className="lg:flex items-center flex-col lg:flex-row gap-y-10 py-6 mb-20">
+    <section className="lg:flex items-center lg:justify-end flex-col lg:flex-row gap-y-10 xl:gap-x-20 py-6 mb-20">
       <div className="flex-1 space-y-10">
         <Badge className="py-2 px-6 bg-blue-200 text-base text-blue-700 font-bold rounded-[2px]">
           Sale 70%
@@ -36,7 +36,11 @@ export default function Hero() {
       </div>
       <div className="lg:block hidden flex-1">
         <div className="h-[36rem] w-[36rem] bg-[#ffece3] rounded-full -z-50 relative">
-          <Image src={HeroImage} alt={"Hero"} className="absolute h-full bottom-10 left-10" />
+          <Image
+            src={HeroImage}
+            alt={"Hero"}
+            className="absolute h-full bottom-10 left-10"
+          />
         </div>
       </div>
     </section>

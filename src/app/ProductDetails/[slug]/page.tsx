@@ -1,12 +1,11 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import Quantity from "@/components/reusable/quantity";
 import { client } from "@/lib/sanityClient";
 import { Image as IImage } from "sanity";
 import { urlForImage } from "../../../../sanity/lib/image";
-import AddToCart from "@/components/reusable/addToCart";
 import Q_A from "@/components/reusable/Q_A";
+
 
 interface IProduct {
   _id: string;

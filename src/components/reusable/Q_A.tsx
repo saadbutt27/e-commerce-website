@@ -3,24 +3,15 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import toast from "react-hot-toast";
-import { Image as IImage } from "sanity";
 import { useState, useContext } from "react";
 import { CartContext } from "@/components/context/CartContext";
-interface IProduct {
-  _id: string;
-  title: string;
-  description: string;
-  price: number;
-  image: IImage;
-  alt: string;
-  category: string;
-  type: string;
-  sizes: string[];
-}
+import { IProduct } from "@/lib/types";
+
 
 export default function Q_A(item: { product: IProduct }) {
   const [quantity, setQuantity] = useState(1);
   const { cartCount, setCartCount } = useContext(CartContext);
+  // console.log("Cart Items Count:", cartCount);
 
   const notify = (message: string) =>
     toast(message, {
@@ -48,7 +39,8 @@ export default function Q_A(item: { product: IProduct }) {
     });
 
   const handleAddToCart = async () => {
-    const res = await fetch("http://localhost:3000/api/cart", {
+    console.log(process.env.NEXT_PUBLIC_SITE_URL + "api/cart");
+    const res = await fetch(process.env.NEXT_PUBLIC_SITE_URL + "api/cart", {
       method: "POST",
       body: JSON.stringify({
         product_id: item.product._id,
@@ -65,7 +57,7 @@ export default function Q_A(item: { product: IProduct }) {
       notify("Product has been added to cart.");
     } else {
       // console.log("update now");
-      const res = await fetch("http://localhost:3000/api/cart", {
+      const res = await fetch("/api/cart", {
         method: "PUT",
         body: JSON.stringify({
           product_id: item.product._id,

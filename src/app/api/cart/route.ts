@@ -8,15 +8,20 @@ export const GET = async (request: NextRequest) => {
   const req = request.nextUrl;
   const uid = req.searchParams.get("user_id") as string;
 
+  let user_id = !uid ? cookies().get("user_id")?.value : uid;
+  // console.log("user id ", user_id);
+
   try {
-    if (uid) {
+    if (user_id) {
       const res = await db
         .select()
         .from(cartTable)
-        .where(eq(cartTable.user_id, uid));
+        .where(eq(cartTable.user_id, user_id));
+      // console.log(res, "pass");
       return NextResponse.json(res);
     } else {
-      throw new Error("You are not logged in!");
+      // console.log("fail");
+      return NextResponse.json({ res: false });
     }
   } catch (error) {
     console.log(error);
@@ -89,7 +94,7 @@ export const PUT = async (request: NextRequest) => {
 };
 
 export const DELETE = async (request: NextRequest) => {
-  console.log("Hello from DELETE");
+  // console.log("Hello from DELETE");
   const req = request.nextUrl;
   const product_id = req.searchParams.get("product_id") as string;
   // const req = await request.json();
@@ -102,7 +107,7 @@ export const DELETE = async (request: NextRequest) => {
         and(eq(cartTable.product_id, product_id), eq(cartTable.user_id, uid))
       )
       .returning();
-    console.log(res);
+    // console.log(res);
     return NextResponse.json(res);
   } catch (error) {
     console.log(error);

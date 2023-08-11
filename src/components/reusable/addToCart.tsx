@@ -2,22 +2,21 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
-// import { cookies } from "next/headers";
-// import { v4 as randomIdGenerator } from "uuid";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { Image as IImage } from "sanity";
+import { IProduct } from "@/lib/types";
 
-interface IProduct {
-  _id: string;
-  title: string;
-  description: string;
-  price: number;
-  image: IImage;
-  alt: string;
-  category: string;
-  type: string;
-  sizes: string[];
-}
+// interface IProduct {
+//   _id: string;
+//   title: string;
+//   description: string;
+//   price: number;
+//   image: IImage;
+//   alt: string;
+//   category: string;
+//   type: string;
+//   sizes: string[];
+// }
 
 export default function AddToCart(
   item: { product: IProduct },

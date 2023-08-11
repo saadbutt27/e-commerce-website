@@ -8,7 +8,7 @@ const CartContext = createContext<any>(null);
 // Create a provider for the cart context
 const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cartCount, setCartCount] = useState(0);
-  console.log("Cart Items Count:", cartCount);
+  // console.log(cartCount)
   return (
     <CartContext.Provider value={{ cartCount, setCartCount }}>
       {children}

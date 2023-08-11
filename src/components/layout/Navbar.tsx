@@ -9,7 +9,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
   const [toggleNav, setToggleNav] = useState(false); // make responsive navbar with hamburger menu
   const { cartCount } = useContext(CartContext);
   return (
-    <header className="sticky top-0 bg-white py-4 px-24 w-full z-50 shadow-md">
+    <header className="sticky top-0 bg-white py-4 px-12 md:px-24 w-full z-50 shadow-md">
       <nav className="flex items-center justify-between my-4 relative">
         <div>
           <Link href={"/"}>
