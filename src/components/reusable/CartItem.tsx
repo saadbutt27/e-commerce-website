@@ -80,7 +80,7 @@ export default function CartItem(props: {
   const hadleDelete = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/cart?product_id=${props.product_id}`,
+        `${process.env.NEXT_PUBLIC_SITE_URL}api/cart?product_id=${props.product_id}`,
         {
           method: "DELETE",
           headers: {

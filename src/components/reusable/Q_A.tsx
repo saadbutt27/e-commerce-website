@@ -47,15 +47,10 @@ export default function Q_A(item: { product: IProduct }) {
     });
 
     const result = await res.json();
-
-    // console.log(res.ok);
-    // console.log("QA Component ", result);
-    // console.log(result);
     if (res.ok && result.res !== false) {
       notify("Product has been added to cart.");
     } else {
-      // console.log("update now");
-      const res = await fetch("/api/cart", {
+      const res = await fetch(process.env.NEXT_PUBLIC_SITE_URL + "api/cart", {
         method: "PUT",
         body: JSON.stringify({
           product_id: item.product._id,

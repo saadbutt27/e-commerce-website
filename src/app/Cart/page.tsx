@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import CartItem from "@/components/reusable/CartItem";
 import { ShoppingCart } from "lucide-react";
-// import { useCart } from "@/components/context/CartContext";
 
 type Product = {
   id: number;
@@ -14,13 +13,11 @@ type Product = {
 };
 
 export default function Cart() {
-  // let products: Product[] = await getData();
-  // const { subTotal } = useCart();
   const [subTotal, setSubTotal] = useState<number>(0);
   const [products, setProducts] = useState<Product[]>();
   const [deleteCall, setDeleteCall] = useState(0);
   const deliveryCharges = 15;
-  
+
   useEffect(() => {
     fetch(process.env.NEXT_PUBLIC_SITE_URL + "api/cart", {
       method: "GET",

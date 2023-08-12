@@ -19,7 +19,7 @@ async function getData() {
   if (user_id) {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/cart?user_id=${user_id}`,
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/cart?user_id=${user_id}`,
         {
           method: "GET",
           headers: {

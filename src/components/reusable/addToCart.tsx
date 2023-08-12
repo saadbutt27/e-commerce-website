@@ -5,7 +5,6 @@ import { ShoppingCart } from "lucide-react";
 import toast from "react-hot-toast";
 import { IProduct } from "@/lib/types";
 
-
 export default function AddToCart(
   item: { product: IProduct },
   quantity: { quantity: number }
@@ -36,7 +35,7 @@ export default function AddToCart(
     });
   console.log("quantity ", quantity.quantity);
   const handleAddToCart = async () => {
-    const res = await fetch("http://localhost:3000/api/cart", {
+    const res = await fetch(process.env.NEXT_PUBLIC_SITE_URL + "api/cart", {
       method: "POST",
       body: JSON.stringify({
         product_id: item.product._id,
@@ -45,7 +44,6 @@ export default function AddToCart(
     });
 
     const result = await res.json();
-    console.log(result);
 
     notify();
   };
