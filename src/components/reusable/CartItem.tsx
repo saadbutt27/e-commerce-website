@@ -8,33 +8,19 @@ import { client } from "@/lib/sanityClient";
 import { urlForImage } from "../../../sanity/lib/image";
 import toast from "react-hot-toast";
 import { IProduct } from "@/lib/types";
-
-const getProductData = async (id: string) => {
-  const res = await client.fetch(`*[_type=="product" && _id == "${id}"] {
-      price, 
-      _id,
-      title,
-      type,
-      image,
-      description,
-      sizes[],
-      category -> {
-        name
-      }
-    }`);
-  return res;
-};
+import { useCart } from "@/components/context/CartContext";
 
 export default function CartItem(props: {
   product_id: string;
   quantity: number;
   size: string;
+  updateSubtotal: (subtotal: number) => void; // Callback function
+  updateDeleteCall: (a: number) => void; // Callback function
 }) {
-  // const product: IProduct[] = await getProductData(props.product_id);
+  const { cartCount, setCartCount } = useCart();
   const [product, setProduct] = useState<IProduct[]>();
 
   useEffect(() => {
-    console.log("Cart Item");
     client
       .fetch(
         `*[_type=="product" && _id == "${props.product_id}"] {
@@ -53,12 +39,18 @@ export default function CartItem(props: {
       .then((res) => res)
       .then((data) => {
         setProduct((prev) => data);
-        console.log("cartitem ", data);
       })
       .catch((error) => {
         console.log("Error fetching data:", error);
       });
   }, []);
+
+  useEffect(() => {
+    if (product) {
+      const itemSubTotal = product[0].price * props.quantity;
+      props.updateSubtotal(itemSubTotal); // Call the function to update subtotal
+    }
+  }, [product, props.quantity]);
 
   const notify = (message: string) =>
     toast(message, {
@@ -95,13 +87,16 @@ export default function CartItem(props: {
             "Content-Type": "application/json",
           },
         }
-      );
-      if (res.ok) {
-        notify("Product has been deleted from cart.");
-        // setCartCount((prevCount: number) => prevCount - quantity);
-      } else {
-        throw new Error("Deleteion Failed!");
-      }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          props.updateDeleteCall(1);
+          notify("Product has been deleted from cart.");
+          setCartCount((prevCount: number) => prevCount - props.quantity);
+        })
+        .catch((error) => {
+          console.log("Error deleting data:", error);
+        });
     } catch (error) {
       console.log("error: ", error);
     }
@@ -112,9 +107,9 @@ export default function CartItem(props: {
         <Image
           src={urlForImage(product[0].image).url()}
           alt="product1"
-          width={300}
+          width={400}
           height={300}
-          className="object-cover object-top"
+          className="max-h-[300px] min-w-[100px] object-cover object-top"
         />
         <div className="w-full space-y-4">
           <div className="w-full grid grid-cols-2">
@@ -128,7 +123,7 @@ export default function CartItem(props: {
               <Trash2 />
             </Button>
           </div>
-          <div className="w-full grid grid-cols-1 lg:grid-cols-2 items-center">
+          <div className="w-full grid grid-cols-1 lg:grid-cols-2 items-baseline justify-between">
             <p className="text-base font-semibold">
               Price: ${product[0].price.toFixed(2)}
             </p>

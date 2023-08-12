@@ -1,16 +1,14 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import toast from "react-hot-toast";
-import { useState, useContext } from "react";
-import { CartContext } from "@/components/context/CartContext";
+import { useCart } from "@/components/context/CartContext";
 import { IProduct } from "@/lib/types";
-
 
 export default function Q_A(item: { product: IProduct }) {
   const [quantity, setQuantity] = useState(1);
-  const { cartCount, setCartCount } = useContext(CartContext);
+  const { cartCount, setCartCount } = useCart();
   // console.log("Cart Items Count:", cartCount);
 
   const notify = (message: string) =>

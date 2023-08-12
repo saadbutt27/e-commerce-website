@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import CartItem from "@/components/reusable/CartItem";
 import { ShoppingCart } from "lucide-react";
+// import { useCart } from "@/components/context/CartContext";
 
 type Product = {
   id: number;
@@ -14,7 +15,12 @@ type Product = {
 
 export default function Cart() {
   // let products: Product[] = await getData();
+  // const { subTotal } = useCart();
+  const [subTotal, setSubTotal] = useState<number>(0);
   const [products, setProducts] = useState<Product[]>();
+  const [deleteCall, setDeleteCall] = useState(0);
+  const deliveryCharges = 15;
+  
   useEffect(() => {
     fetch(process.env.NEXT_PUBLIC_SITE_URL + "api/cart", {
       method: "GET",
@@ -25,20 +31,31 @@ export default function Cart() {
       .then((res) => res.json())
       .then((data) => {
         setProducts((prev) => data);
-        console.log(data);
+        // console.log(data);
       })
       .catch((error) => {
         console.log("Error fetching data:", error);
       });
-  }, []);
+  }, [deleteCall]);
+
+  const handleSubtotalUpdate = (itemSubTotal: number) => {
+    setSubTotal((prevSubTotal) => prevSubTotal + itemSubTotal);
+  };
+
+  const handleDeleteCall = (a: number) => {
+    setDeleteCall((prevSubTotal) => prevSubTotal + a);
+  };
+
+  const handleCheckOut = () => {
+    console.log("Checkout", subTotal + deliveryCharges);
+  };
+
   if (products) {
-    let subTotal = 10;
-    console.log("products:", products);
     return (
       <section>
         <h2 className="text-4xl font-bold">Shopping Cart</h2>
         {products.length > 0 ? (
-          <div className="flex flex-col lg:flex-row lg:justify-around lg:items-start mt-10 gap-y-4 gap-x-10">
+          <div className="flex flex-col xl:flex-row lg:justify-around lg:items-start mt-10 gap-y-4 gap-x-10">
             <div className="flex-[2_1_0%]">
               {products.map((product) => (
                 <CartItem
@@ -46,6 +63,8 @@ export default function Cart() {
                   product_id={product.product_id}
                   quantity={product.quantity}
                   size={product.size}
+                  updateSubtotal={handleSubtotalUpdate}
+                  updateDeleteCall={handleDeleteCall}
                 />
               ))}
             </div>
@@ -69,8 +88,8 @@ export default function Cart() {
                             Subtotal
                           </p>
                         </div>
-                        <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                          ${subTotal + 0}
+                        <div className="inline-flex items-center text-base font-semibold text-gray-900 duration-700 ease-in-out">
+                          ${subTotal.toFixed(2)}
                         </div>
                       </div>
                     </li>
@@ -82,7 +101,7 @@ export default function Cart() {
                           </p>
                         </div>
                         <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                          $10
+                          ${deliveryCharges.toFixed(2)}
                         </div>
                       </div>
                     </li>
@@ -94,12 +113,15 @@ export default function Cart() {
                           </p>
                         </div>
                         <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                          ${subTotal + 10}
+                          ${(subTotal + deliveryCharges).toFixed(2)}
                         </div>
                       </div>
                     </li>
                   </ul>
-                  <Button className="bg-black text-white text-lg w-full rounded-xl">
+                  <Button
+                    onClick={handleCheckOut}
+                    className="bg-black text-white text-lg w-full rounded-xl"
+                  >
                     Checkout
                   </Button>
                 </div>
@@ -109,7 +131,9 @@ export default function Cart() {
         ) : (
           <div className="flex flex-col justify-between items-center gap-y-4 mt-10">
             <ShoppingCart className="w-32 h-32" />
-            <h3 className="text-5xl font-bold">Your cart is empty!</h3>
+            <h3 className="text-3xl sm:text-5xl font-bold">
+              Your cart is empty!
+            </h3>
           </div>
         )}
       </section>
@@ -118,7 +142,7 @@ export default function Cart() {
   return (
     <section>
       <h2 className="text-4xl font-bold">Shopping Cart</h2>
-      <div className="text-center">
+      <div className="text-center mt-32">
         <div role="status">
           <svg
             aria-hidden="true"

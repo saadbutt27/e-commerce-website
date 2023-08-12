@@ -92,7 +92,7 @@ export const PUT = async (request: NextRequest) => {
         )
       )
       .returning();
-    console.log(res);
+    // console.log(res);
     return NextResponse.json(res);
   } catch (error) {
     console.log(error);
@@ -105,7 +105,7 @@ export const DELETE = async (request: NextRequest) => {
   const product_id = req.searchParams.get("product_id") as string;
   // const req = await request.json();
   let uid = cookies().get("user_id")?.value as string;
-  console.log(product_id, uid);
+  // console.log(product_id, uid);
   try {
     const res = await db
       .delete(cartTable)

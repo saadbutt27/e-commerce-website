@@ -1,13 +1,13 @@
 "use client";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import Logo from "../../../public/Logo.webp";
+import Logo from "../../../public/images/a_z.png";
 import Link from "next/link";
-import { CartContext } from "@/components/context/CartContext";
+import { useCart } from "@/components/context/CartContext";
 
 export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
   const [toggleNav, setToggleNav] = useState(false); // make responsive navbar with hamburger menu
-  const { cartCount } = useContext(CartContext);
+  const { cartCount } = useCart();
   return (
     <header className="sticky top-0 bg-white py-4 px-12 md:px-24 w-full z-50 shadow-md">
       <nav className="flex items-center justify-between my-4 relative">
