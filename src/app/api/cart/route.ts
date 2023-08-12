@@ -17,7 +17,7 @@ export const GET = async (request: NextRequest) => {
         .select()
         .from(cartTable)
         .where(eq(cartTable.user_id, user_id));
-      // console.log(res, "pass");
+      // console.log("api", res);
       return NextResponse.json(res);
     } else {
       // console.log("fail");
@@ -41,12 +41,18 @@ export const POST = async (request: NextRequest) => {
     setCookies.set("user_id", uid);
   }
   // console.log("q ", req.product_id, req.quantity);
+  let u_id = cookies().get("user_id")?.value as string;
   let res;
   try {
     res = await db
       .select()
       .from(cartTable)
-      .where(eq(cartTable.product_id, req.product_id));
+      .where(
+        and(
+          eq(cartTable.product_id, req.product_id),
+          eq(cartTable.user_id, u_id)
+        )
+      );
     // console.log("API ", res, res.length);
     if (res.length === 0) {
       // console.log("q ", req.product_id, req.quantity);

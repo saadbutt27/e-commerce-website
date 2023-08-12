@@ -3,6 +3,7 @@ import Product from "../../components/reusable/Product";
 import { client } from "@/lib/sanityClient";
 import { Image as IImage } from "sanity";
 import { urlForImage } from "../../../sanity/lib/image";
+import { IProduct } from "@/lib/types";
 
 const getProductData = async () => {
   const res = await client.fetch(`*[_type=="product"] {
@@ -17,16 +18,6 @@ const getProductData = async () => {
     }`);
   return res;
 };
-
-interface IProduct {
-  _id: string;
-  title: string;
-  description: string;
-  price: number;
-  image: IImage;
-  alt: string;
-  category: string;
-}
 
 export default async function AllProducts() {
   const data: IProduct[] = await getProductData();
