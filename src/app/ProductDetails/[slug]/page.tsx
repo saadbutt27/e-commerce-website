@@ -40,7 +40,7 @@ export default async function ProductDetails({
   params: { slug: string };
 }) {
   const product: IProduct[] = await getProductData(params.slug);
-  console.log(product);
+  
   return (
     <section>
       <div className="flex flex-col md:flex-row justify-center md:items-center md:space-x-10 space-y-10 md:space-y-0">
