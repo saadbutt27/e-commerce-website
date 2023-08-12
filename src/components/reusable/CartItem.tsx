@@ -43,12 +43,12 @@ export default function CartItem(props: {
       .catch((error) => {
         console.log("Error fetching data:", error);
       });
-  }, []);
+  }, [props.product_id]);
 
   useEffect(() => {
     if (product) {
       const itemSubTotal = product[0].price * props.quantity;
-      props.updateSubtotal(itemSubTotal); // Call the function to update subtotal
+      props.updateSubtotal(itemSubTotal);
     }
   }, [product, props.quantity]);
 

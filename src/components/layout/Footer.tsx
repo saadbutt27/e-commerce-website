@@ -116,7 +116,7 @@ export default function Footer() {
           Copyright © 2023 <strong>A-Z STORE</strong>
         </h4>
         <h4>
-          Design by. <strong>Saad's Designs</strong>
+          Design by. <strong>Saad&apos;s Designs</strong>
         </h4>
         <h4>
           Code by. <strong>saadbutt27 - github</strong>
