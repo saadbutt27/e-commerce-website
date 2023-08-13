@@ -1,22 +1,7 @@
 import React from "react";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { client } from "@/lib/sanityClient";
-import { Image as IImage } from "sanity";
-import { urlForImage } from "../../../../sanity/lib/image";
-import Q_A from "@/components/reusable/Q_A";
-
-interface IProduct {
-  _id: string;
-  title: string;
-  description: string;
-  price: number;
-  image: IImage;
-  alt: string;
-  category: string;
-  type: string;
-  sizes: string[];
-}
+import { IProduct } from "@/lib/types";
+import ProductDetailsComp from "@/components/reusable/ProductDetailsComp";
 
 const getProductData = async (id: string) => {
   const res = await client.fetch(`*[_type=="product" && _id == "${id}"] {
@@ -43,40 +28,7 @@ export default async function ProductDetails({
   
   return (
     <section>
-      <div className="flex flex-col md:flex-row justify-center md:items-center md:space-x-10 space-y-10 md:space-y-0">
-        <Image
-          src={urlForImage(product[0].image).url()}
-          alt="product1"
-          width={300}
-          height={400}
-          className="object-cover object-top"
-        />
-        <div className="flex flex-col space-y-8">
-          <div>
-            <h3 className="text-2xl font-semibold">{product[0].title}</h3>
-            <p className="text-lg font-semibold text-gray-400">
-              {product[0].type}
-            </p>
-          </div>
-          <div className="space-y-2">
-            <p className="text-base font-semibold">Select size</p>
-            <div>
-              {product[0].sizes &&
-                product[0].sizes.map((size, index) => (
-                  <Button
-                    key={index}
-                    className="hover:bg-gray-100 rounded-full hover:rounded-full text-gray-600 duration-300 hover:shadow-lg"
-                  >
-                    {size}
-                  </Button>
-                ))}
-            </div>
-          </div>
-          {/* <Quantity q={null} />
-          <AddToCart product={product[0]} /> */}
-          <Q_A product={product[0]} />
-        </div>
-      </div>
+      <ProductDetailsComp product={product[0]}/>
       <div className="mt-16 flex flex-col gap-8">
         <h2 className="text-2xl font-bold border-b-2 border-b-gray-200 py-10">
           Product Information

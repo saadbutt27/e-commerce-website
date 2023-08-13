@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import Quantity from "@/components/reusable/Quantity";
 import { CalendarClock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
@@ -14,11 +13,12 @@ export default function CartItem(props: {
   product_id: string;
   quantity: number;
   size: string;
-  updateSubtotal: (subtotal: number) => void; // Callback function
-  updateDeleteCall: (a: number) => void; // Callback function
+  updateSubtotal: (subtotal: number, p: number, o: string) => void; // Callback function
+  updateDeleteCall: (a: number, price: number, quantity: number) => void; // Callback function
 }) {
   const { cartCount, setCartCount } = useCart();
   const [product, setProduct] = useState<IProduct[]>();
+  const [newQuantity, setNewQuantity] = useState(props.quantity);
 
   useEffect(() => {
     client
@@ -48,7 +48,7 @@ export default function CartItem(props: {
   useEffect(() => {
     if (product) {
       const itemSubTotal = product[0].price * props.quantity;
-      props.updateSubtotal(itemSubTotal);
+      props.updateSubtotal(itemSubTotal, 0, "none");
     }
   }, [product, props.quantity]);
 
@@ -77,7 +77,7 @@ export default function CartItem(props: {
       },
     });
 
-  const hadleDelete = async () => {
+  const hadleDelete = async (price: number) => {
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SITE_URL}api/cart?product_id=${props.product_id}`,
@@ -90,7 +90,8 @@ export default function CartItem(props: {
       )
         .then((res) => res.json())
         .then((data) => {
-          props.updateDeleteCall(1);
+          console.log(data);
+          props.updateDeleteCall(1, price, data[0].quantity);
           notify("Product has been deleted from cart.");
           setCartCount((prevCount: number) => prevCount - props.quantity);
         })
@@ -101,6 +102,19 @@ export default function CartItem(props: {
       console.log("error: ", error);
     }
   };
+
+  const handleQuantityCount = (action: string, price: number) => {
+    if (action === "increment") {
+      setNewQuantity(newQuantity + 1);
+      props.updateSubtotal(0, price, "+");
+      setCartCount((prevCount: number) => prevCount + 1);
+    } else if (action === "decrement" && newQuantity !== 1) {
+      setNewQuantity(newQuantity - 1);
+      props.updateSubtotal(0, price,"-");
+      setCartCount((prevCount: number) => prevCount - 1);
+    }
+  };
+
   if (product) {
     return (
       <div className="flex flex-col sm:flex-row gap-y-4 gap-x-10 border-b-2 border-b-gray-400 py-4">
@@ -119,7 +133,10 @@ export default function CartItem(props: {
                 {product[0].type}
               </p>
             </div>
-            <Button onClick={hadleDelete} className="justify-self-end">
+            <Button
+              onClick={() => hadleDelete(product[0].price)}
+              className="justify-self-end"
+            >
               <Trash2 />
             </Button>
           </div>
@@ -128,7 +145,29 @@ export default function CartItem(props: {
               Price: ${product[0].price.toFixed(2)}
             </p>
             <div className="order-1 md:order-last">
-              <Quantity q={props.quantity} />
+              {/* <Quantity q={props.quantity} /> */}
+              <div className="flex items-baseline justify-between space-y-2">
+                <p className="text-base font-semibold">Quantity</p>
+                <div className="flex-[2_1_0%] flex items-center justify-around">
+                  <Button
+                    onClick={() =>
+                      handleQuantityCount("decrement", product[0].price)
+                    }
+                    className="bg-gray-100 rounded-full text-gray-600 text-2xl shadow-lg hover:scale-105 duration-300"
+                  >
+                    -
+                  </Button>
+                  <p>{newQuantity}</p>
+                  <Button
+                    onClick={() =>
+                      handleQuantityCount("increment", product[0].price)
+                    }
+                    className="bg-gray-100 rounded-full text-gray-600 text-2xl shadow-lg hover:scale-105 duration-300"
+                  >
+                    +
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
           <p className="space-y-2 text-base font-semibold">

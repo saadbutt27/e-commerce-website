@@ -64,6 +64,7 @@ export default function Q_A(item: { product: IProduct }) {
     }
     setCartCount((prevCount: number) => prevCount + quantity);
   };
+  
   return (
     <>
       <div className="flex items-center justify-between space-y-2">

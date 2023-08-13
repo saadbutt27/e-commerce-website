@@ -62,7 +62,7 @@ export const POST = async (request: NextRequest) => {
           product_id: req.product_id,
           quantity: req.quantity,
           user_id: cookies().get("user_id")?.value as string,
-          size: "L",
+          size: req.size,
         })
         .returning();
     } else {

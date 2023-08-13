@@ -8,7 +8,7 @@ export default function Quantity({ q }: { q: number | null }) {
   const [quantity, setQuantity] = useState(q || 1);
   const { cartCount, setCartCount } = useCart();
 
-  const handleQuantityCount = async (action: string) => {
+  const handleQuantityCount = (action: string) => {
     if (action === "increment") {
       setQuantity(quantity + 1);
       setCartCount((prevCount: number) => prevCount + 1);

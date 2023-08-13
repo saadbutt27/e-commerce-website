@@ -35,12 +35,24 @@ export default function Cart() {
       });
   }, [deleteCall]);
 
-  const handleSubtotalUpdate = (itemSubTotal: number) => {
-    setSubTotal((prevSubTotal) => prevSubTotal + itemSubTotal);
+  const handleSubtotalUpdate = (
+    itemSubTotal: number,
+    price: number,
+    operation: string
+  ) => {
+    if (price !== 0 && operation === "+") {
+      setSubTotal((prevSubTotal) => prevSubTotal + price);
+    } else if (price !== 0 && operation === "-") {
+      setSubTotal((prevSubTotal) => prevSubTotal - price);
+    } else {
+      setSubTotal((prevSubTotal) => prevSubTotal + itemSubTotal);
+    }
   };
 
-  const handleDeleteCall = (a: number) => {
+  const handleDeleteCall = (a: number, price: number, quantity: number) => {
     setDeleteCall((prevSubTotal) => prevSubTotal + a);
+    const amount = price * quantity;
+    setSubTotal((prevSubTotal) => prevSubTotal - amount);
   };
 
   const handleCheckOut = () => {
