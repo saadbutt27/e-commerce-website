@@ -16,7 +16,7 @@ export default function Cart() {
   const [subTotal, setSubTotal] = useState<number>(0);
   const [products, setProducts] = useState<Product[]>();
   const [deleteCall, setDeleteCall] = useState(0);
-  const deliveryCharges = 15;
+  const deliveryCharges = 5;
 
   useEffect(() => {
     fetch(process.env.NEXT_PUBLIC_SITE_URL + "api/cart", {
@@ -110,7 +110,7 @@ export default function Cart() {
                           </p>
                         </div>
                         <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                          ${deliveryCharges.toFixed(2)}
+                          ${(deliveryCharges * products.length).toFixed(2)}
                         </div>
                       </div>
                     </li>
