@@ -91,7 +91,7 @@ export default function CartItem(props: {
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          props.updateDeleteCall(1, price, data[0].quantity);
+          props.updateDeleteCall(1, price, newQuantity);
           notify("Product has been deleted from cart.");
           setCartCount((prevCount: number) => prevCount - props.quantity);
         })
@@ -110,7 +110,7 @@ export default function CartItem(props: {
       setCartCount((prevCount: number) => prevCount + 1);
     } else if (action === "decrement" && newQuantity !== 1) {
       setNewQuantity(newQuantity - 1);
-      props.updateSubtotal(0, price,"-");
+      props.updateSubtotal(0, price, "-");
       setCartCount((prevCount: number) => prevCount - 1);
     }
   };
