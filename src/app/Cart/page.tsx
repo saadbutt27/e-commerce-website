@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import CartItem from "@/components/reusable/CartItem";
 import { ShoppingCart } from "lucide-react";
+import toast from "react-hot-toast";
 
 type Product = {
   id: number;
@@ -55,8 +56,29 @@ export default function Cart() {
     setSubTotal((prevSubTotal) => prevSubTotal - amount);
   };
 
-  const handleCheckOut = () => {
-    console.log("Checkout", subTotal + deliveryCharges);
+  const handleCheckOut = async () => {
+    try {
+      console.log("Checkout", subTotal + deliveryCharges);
+      const amount = subTotal + deliveryCharges;
+      const res = await fetch(
+        process.env.NEXT_PUBLIC_SITE_URL + "api/checkout",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            order_amount: amount,
+            products: products,
+          }),
+        }
+      );
+      if (!res.ok) {
+        return toast.error("Failed to create an order.");
+      }
+      
+      const { url } = await res.json();
+      window.location.href = url;
+    } catch (error) {
+      console.log("Eror here:", error);
+    }
   };
 
   if (products) {

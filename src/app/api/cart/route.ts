@@ -9,7 +9,7 @@ export const GET = async (request: NextRequest) => {
   const uid = req.searchParams.get("user_id") as string;
 
   let user_id = !uid ? cookies().get("user_id")?.value : uid;
-  // console.log("user id ", user_id);
+  // console.log("user id ", user_id)
 
   try {
     if (user_id) {
@@ -21,7 +21,7 @@ export const GET = async (request: NextRequest) => {
       return NextResponse.json(res);
     } else {
       // console.log("fail");
-      return NextResponse.json({ res: false });
+      throw new Error("error");
     }
   } catch (error) {
     console.log(error);
@@ -103,17 +103,27 @@ export const DELETE = async (request: NextRequest) => {
   // console.log("Hello from DELETE");
   const req = request.nextUrl;
   const product_id = req.searchParams.get("product_id") as string;
-  // const req = await request.json();
-  let uid = cookies().get("user_id")?.value as string;
-  // console.log(product_id, uid);
+  const u_id = req.searchParams.get("user_id") as string;
+  const uid = cookies().get("user_id")?.value as string;
+
+  // console.log(product_id, uid, u_id);
   try {
-    const res = await db
-      .delete(cartTable)
-      .where(
-        and(eq(cartTable.product_id, product_id), eq(cartTable.user_id, uid))
-      )
-      .returning();
-    // console.log(res);
+    let res;
+    if (product_id) {
+      console.log(product_id);
+      res = await db
+        .delete(cartTable)
+        .where(
+          and(eq(cartTable.product_id, product_id), eq(cartTable.user_id, uid))
+        )
+        .returning();
+    } else {
+      res = await db
+        .delete(cartTable)
+        .where(eq(cartTable.user_id, u_id))
+        .returning();
+    }
+    // console.log("del api:", res);
     return NextResponse.json(res);
   } catch (error) {
     console.log(error);

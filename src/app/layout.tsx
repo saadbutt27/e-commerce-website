@@ -19,7 +19,7 @@ async function getData() {
   if (user_id) {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SITE_URL}/api/cart?user_id=${user_id}`,
+        `${process.env.NEXT_PUBLIC_SITE_URL}api/cart?user_id=${user_id}`,
         {
           method: "GET",
           headers: {
@@ -64,7 +64,7 @@ export default async function RootLayout({
       <body>
         <CartProvider>
           <Navbar cartItemsCount={totalQuantity} />
-          <main className="p-12 md:p-24">{children}</main>
+          <main className="p-12 md:py-12 md:px-24">{children}</main>
           <Footer />
           <Toaster />
         </CartProvider>

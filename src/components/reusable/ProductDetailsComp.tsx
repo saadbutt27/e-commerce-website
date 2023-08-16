@@ -93,7 +93,7 @@ export default function ProductDetailsComp({ product }: { product: IProduct }) {
         <div className="space-y-2">
           <p className="text-base font-semibold">Select size</p>
           <div>
-            {product.sizes &&
+            {product.sizes ? (
               product.sizes.map((size, index) => (
                 <Button
                   onClick={() => setRequireSize(size)}
@@ -102,7 +102,10 @@ export default function ProductDetailsComp({ product }: { product: IProduct }) {
                 >
                   {size}
                 </Button>
-              ))}
+              ))
+            ) : (
+              <p className="text-base font-semibold text-red-500">Not Available</p>
+            )}
           </div>
         </div>
         <div className="flex items-center justify-between space-y-2">

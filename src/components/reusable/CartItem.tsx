@@ -145,7 +145,6 @@ export default function CartItem(props: {
               Price: ${product[0].price.toFixed(2)}
             </p>
             <div className="order-1 md:order-last">
-              {/* <Quantity q={props.quantity} /> */}
               <div className="flex items-baseline justify-between space-y-2">
                 <p className="text-base font-semibold">Quantity</p>
                 <div className="flex-[2_1_0%] flex items-center justify-around">
