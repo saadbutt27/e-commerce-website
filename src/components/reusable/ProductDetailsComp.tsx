@@ -42,6 +42,7 @@ export default function ProductDetailsComp({ product }: { product: IProduct }) {
     if (!requireSize) toast.error("Please select a size!");
     else {
       try {
+        const toastId = toast.loading("Adding to cart...");
         const res = await fetch(process.env.NEXT_PUBLIC_SITE_URL + "api/cart", {
           method: "POST",
           body: JSON.stringify({
@@ -54,7 +55,10 @@ export default function ProductDetailsComp({ product }: { product: IProduct }) {
         if (!res.ok) throw new Error("error insertion");
 
         const result = await res.json();
-        notify("Product has been added to cart.");
+        // console.log(result);
+        toast.success("Product has been added to cart", {
+          id: toastId,
+        });
         setCartCount((prevCount: number) => prevCount + quantity);
       } catch (error) {
         console.log("Error adding to cart:", error);

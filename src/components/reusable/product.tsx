@@ -6,12 +6,12 @@ export default function product({
   imgSrc,
   productName,
   productPrice,
-  productId
+  productId,
 }: {
   imgSrc: any;
   productName: string;
   productPrice: number;
-  productId: string
+  productId: string;
 }) {
   return (
     <Link href={`/ProductDetails/${productId}`}>
@@ -19,9 +19,9 @@ export default function product({
         <Image
           src={imgSrc}
           alt="product1"
-          width={300}
-          height={300}
-          className="max-h-[300px] object-cover object-top"
+          width={400}
+          height={400}
+          className="object-cover object-center w-full h-[300] md:w-[380px] md:h-[400px] "
         />
         <h3 className="text-xl font-semibold">{productName}</h3>
         <p className="text-xl font-semibold">${productPrice}</p>

@@ -52,7 +52,7 @@ export const POST = async (request: NextRequest) => {
         size: req.size,
       })
       .onConflictDoUpdate({
-        target: [cartTable.user_id, cartTable.product_id],
+        target: [cartTable.user_id, cartTable.product_id, cartTable.size],
         set: { quantity: sql`${cartTable.quantity} + ${req.quantity}` },
       })
       .returning();
@@ -77,7 +77,8 @@ export const PUT = async (request: NextRequest) => {
       .where(
         and(
           eq(cartTable.product_id, req.product_id),
-          eq(cartTable.user_id, uid)
+          eq(cartTable.user_id, uid),
+          eq(cartTable.size, req.size)
         )
       )
       .returning();
@@ -92,6 +93,7 @@ export const DELETE = async (request: NextRequest) => {
   // console.log("Hello from DELETE");
   const req = request.nextUrl;
   const product_id = req.searchParams.get("product_id") as string;
+  const size = req.searchParams.get("size") as string;
   const u_id = req.searchParams.get("user_id") as string;
   const uid = cookies().get("user_id")?.value as string;
 
@@ -103,7 +105,11 @@ export const DELETE = async (request: NextRequest) => {
       res = await db
         .delete(cartTable)
         .where(
-          and(eq(cartTable.product_id, product_id), eq(cartTable.user_id, uid))
+          and(
+            eq(cartTable.product_id, product_id),
+            eq(cartTable.user_id, uid),
+            eq(cartTable.size, size)
+          )
         )
         .returning();
     } else {

@@ -23,7 +23,7 @@ export default function Promotions() {
               <p className="text-lg">For the summer season</p>
             </div>
             <Image
-              className="h-auto max-w-full rounded-lg mx-auto"
+              className="h-auto max-w-full rounded-lg mx-auto self-end"
               src={Prom1}
               alt=""
             />
@@ -36,23 +36,34 @@ export default function Promotions() {
             </button>
           </div>
         </div>
-        <div className="bg-[#efe1c7] flex flex-col">
-          <div className="my-6 mx-8 text-lg">
-            <p>Flex Sweatshirt</p>
-            <p className="font-semibold">
-              <span className="line-through font-normal">$100.00</span> $75.00
-            </p>
+        <div className="grid lg:col-span-2 grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-[#efe1c7] flex flex-col justify-between">
+            <div className="my-6 mx-8 text-lg">
+              <p>Flex Sweatshirt</p>
+              <p className="font-semibold">
+                <span className="line-through font-normal">$100.00</span> $75.00
+              </p>
+            </div>
+            <Image
+              className="self-center max-w-full h-auto"
+              src={Prom2}
+              alt="Flex Sweatshirt Image"
+            />
           </div>
-          <Image className="max-w-full rounded-lg mx-auto" src={Prom2} alt="" />
-        </div>
-        <div className="bg-[#d7d7d9] flex flex-col">
-          <div className="my-6 mx-8 text-lg">
-            <p>Flex Push Button Bomber</p>
-            <p className="font-semibold">
-              <span className="line-through font-normal">$225.00</span> $190.00
-            </p>
+          <div className="bg-[#d7d7d9] flex flex-col">
+            <div className="my-6 mx-8 text-lg">
+              <p>Flex Push Button Bomber</p>
+              <p className="font-semibold">
+                <span className="line-through font-normal">$225.00</span>{" "}
+                $190.00
+              </p>
+            </div>
+            <Image
+              className="self-center max-w-full h-auto"
+              src={Prom3}
+              alt="Flex Push Button Bomber image"
+            />
           </div>
-          <Image className="max-w-full rounded-lg mx-auto" src={Prom3} alt="" />
         </div>
       </div>
     </section>

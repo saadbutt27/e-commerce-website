@@ -80,8 +80,9 @@ export default function CartItem(props: {
 
   const handleDelete = async (price: number) => {
     try {
+      const toastId = toast.loading("Deleting from cart...");
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SITE_URL}api/cart?product_id=${props.product_id}`,
+        `${process.env.NEXT_PUBLIC_SITE_URL}api/cart?product_id=${props.product_id}&size=${props.size}`,
         {
           method: "DELETE",
           headers: {
@@ -93,7 +94,9 @@ export default function CartItem(props: {
         .then((data) => {
           console.log(data);
           props.updateDeleteCall(1, price, newQuantity);
-          notify("Product has been deleted from cart.");
+          toast.success("Product has been deleted from cart", {
+            id: toastId,
+          });
           setCartCount((prevCount: number) => prevCount - props.quantity);
         })
         .catch((error) => {
@@ -101,6 +104,7 @@ export default function CartItem(props: {
         });
     } catch (error) {
       console.log("error: ", error);
+      toast.error("Can't update!")
     }
   };
 
@@ -118,23 +122,28 @@ export default function CartItem(props: {
     console.log(props.quantity, newQuantity, props.quantity === newQuantity);
     if (props.quantity === newQuantity) return;
     try {
+      const toastId = toast.loading("Updating cart...");
       const res = await fetch(process.env.NEXT_PUBLIC_SITE_URL + "api/cart", {
         method: "PUT",
         body: JSON.stringify({
           product_id: id,
           quantity: newQuantity,
+          size: props.size,
           action: "update",
         }),
       });
 
       const result = await res.json();
       props.updateDeleteCall(1, price, newQuantity);
-      notify("Cart has been updated.");
+      toast.success("Cart has been updated", {
+        id: toastId,
+      });
       setCartCount(
         (prevCount: number) => prevCount + (newQuantity - props.quantity)
       );
     } catch (error) {
       console.log(error);
+      toast.error("Can't update!")
     }
   };
 

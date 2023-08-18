@@ -8,12 +8,12 @@ import { sql } from "@vercel/postgres";
 //   product_id varchar(255) not null,
 //   quantity int not null,
 //   size varchar(10) not null,
-//   primary key (user_id, product_id)
+//   primary key (user_id, product_id, size)
 // )
 
 
 export const cartTable = pgTable("cart", {
-  id: serial("id").primaryKey(),
+  id: serial("id"),
   user_id: varchar("user_id", {
     length: 255,
   }).notNull(),
@@ -34,13 +34,6 @@ export const orderTable = pgTable("orders", {
   order_date: date("order_date").notNull(),
   order_amount: integer("order_amount").notNull(),
 });
-
-// export const orderRelations = relations(orderTable, ({ one, many }) => ({
-// 	profileInfo: one(users, {
-// 		fields: [profileInfo.userId],
-// 		references: [users.id],
-// 	}),
-// }));
 
 export const orderDetailsTable = pgTable("order_details", {
   order_detail_id: serial("order_detail_id").primaryKey(),

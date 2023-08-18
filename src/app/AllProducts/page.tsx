@@ -1,7 +1,6 @@
 import React from "react";
 import Product from "../../components/reusable/Product";
 import { client } from "@/lib/sanityClient";
-import { Image as IImage } from "sanity";
 import { urlForImage } from "../../../sanity/lib/image";
 import { IProduct } from "@/lib/types";
 

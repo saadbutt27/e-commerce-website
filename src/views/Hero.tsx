@@ -2,6 +2,7 @@ import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
+import Link from "next/link";
 import Image from "next/image";
 import HeroImage from "/public/images/hero-image.webp";
 import Bazaar from "/public/images/bazaar.webp";
@@ -23,10 +24,12 @@ export default function Hero() {
           Anyone can beat you but no one can beat your outfit as long as you
           wear Dine outfits.
         </p>
-        <Button className="bg-black text-white h-12 px-8 mt-4 gap-x-2">
-          <ShoppingCart />
-          Start Shopping
-        </Button>
+        <Link href={"#products"}>
+          <Button className="bg-black text-white h-12 px-8 mt-4 gap-x-2">
+            <ShoppingCart />
+            Start Shopping
+          </Button>
+        </Link>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-4">
           <Image src={Bazaar} alt="bazaar-logo" />
           <Image src={Bustle} alt="bustle-logo" />

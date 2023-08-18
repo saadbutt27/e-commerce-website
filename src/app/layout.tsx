@@ -52,7 +52,6 @@ export default async function RootLayout({
     totalQuantity = products.reduce((acc, item) => acc + item.quantity, 0);
     totalQuantity = totalQuantity > 0 ? totalQuantity : 0;
   }
-  console.log(totalQuantity);
 
   return (
     <html lang="en">
