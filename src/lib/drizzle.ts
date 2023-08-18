@@ -2,6 +2,16 @@ import { pgTable, varchar, serial, integer, date } from "drizzle-orm/pg-core";
 import { drizzle } from "drizzle-orm/vercel-postgres";
 import { sql } from "@vercel/postgres";
 
+// create table cart (
+//   id serial,
+//   user_id varchar(255) not null,
+//   product_id varchar(255) not null,
+//   quantity int not null,
+//   size varchar(10) not null,
+//   primary key (user_id, product_id)
+// )
+
+
 export const cartTable = pgTable("cart", {
   id: serial("id").primaryKey(),
   user_id: varchar("user_id", {

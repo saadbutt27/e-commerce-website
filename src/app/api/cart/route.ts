@@ -42,39 +42,25 @@ export const POST = async (request: NextRequest) => {
   }
   // console.log("q ", req.product_id, req.quantity);
   let u_id = cookies().get("user_id")?.value as string;
-  let res;
   try {
-    res = await db
-      .select()
-      .from(cartTable)
-      .where(
-        and(
-          eq(cartTable.product_id, req.product_id),
-          eq(cartTable.user_id, u_id)
-        )
-      );
-    // console.log("API ", res, res.length);
-    if (res.length === 0) {
-      // console.log("q ", req.product_id, req.quantity);
-      res = await db
-        .insert(cartTable)
-        .values({
-          product_id: req.product_id,
-          quantity: req.quantity,
-          user_id: cookies().get("user_id")?.value as string,
-          size: req.size,
-        })
-        .returning();
-    } else {
-      return NextResponse.json({ res: false });
-    }
-    // console.log("In api", res);
+    const res = await db
+      .insert(cartTable)
+      .values({
+        product_id: req.product_id,
+        quantity: req.quantity,
+        user_id: cookies().get("user_id")?.value as string,
+        size: req.size,
+      })
+      .onConflictDoUpdate({
+        target: [cartTable.user_id, cartTable.product_id],
+        set: { quantity: sql`${cartTable.quantity} + ${req.quantity}` },
+      })
+      .returning();
     return NextResponse.json(res);
   } catch (error) {
     console.log(error);
   }
 };
-
 export const PUT = async (request: NextRequest) => {
   const req = await request.json();
   let uid = cookies().get("user_id")?.value as string;
@@ -83,7 +69,10 @@ export const PUT = async (request: NextRequest) => {
     const res = await db
       .update(cartTable)
       .set({
-        quantity: sql`${cartTable.quantity} + ${req.quantity}`,
+        quantity:
+          req.action !== "update"
+            ? sql`${cartTable.quantity} + ${req.quantity}`
+            : req.quantity,
       })
       .where(
         and(

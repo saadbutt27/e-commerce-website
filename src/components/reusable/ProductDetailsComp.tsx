@@ -10,7 +10,7 @@ import { ShoppingCart } from "lucide-react";
 
 export default function ProductDetailsComp({ product }: { product: IProduct }) {
   const [quantity, setQuantity] = useState(1);
-  const { cartCount, setCartCount } = useCart();
+  const { setCartCount } = useCart();
   const [requireSize, setRequireSize] = useState<string>();
 
   const notify = (message: string) =>
@@ -51,24 +51,10 @@ export default function ProductDetailsComp({ product }: { product: IProduct }) {
           }),
         });
 
-        const result = await res.json();
-        if (res.ok && result.res !== false) {
-          notify("Product has been added to cart.");
-        } else {
-          const res = await fetch(
-            process.env.NEXT_PUBLIC_SITE_URL + "api/cart",
-            {
-              method: "PUT",
-              body: JSON.stringify({
-                product_id: product._id,
-                quantity: quantity,
-              }),
-            }
-          );
+        if (!res.ok) throw new Error("error insertion");
 
-          const result = await res.json();
-          notify("Cart has been updated.");
-        }
+        const result = await res.json();
+        notify("Product has been added to cart.");
         setCartCount((prevCount: number) => prevCount + quantity);
       } catch (error) {
         console.log("Error adding to cart:", error);
@@ -104,7 +90,9 @@ export default function ProductDetailsComp({ product }: { product: IProduct }) {
                 </Button>
               ))
             ) : (
-              <p className="text-base font-semibold text-red-500">Not Available</p>
+              <p className="text-base font-semibold text-red-500">
+                Not Available
+              </p>
             )}
           </div>
         </div>
@@ -130,7 +118,10 @@ export default function ProductDetailsComp({ product }: { product: IProduct }) {
           <Button
             variant="outline"
             onClick={handleAddToCart}
-            className="flex justify-center items-center bg-black text-white py-3 gap-2"
+            className={`flex justify-center items-center bg-black text-white py-3 gap-2 ${
+              !product.sizes ? "cursor-not-allowed pointer-events-none" : ""
+            }`}
+            disabled={!product.sizes}
           >
             <ShoppingCart />
             Add to Cart

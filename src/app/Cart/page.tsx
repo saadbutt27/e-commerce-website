@@ -3,20 +3,15 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import CartItem from "@/components/reusable/CartItem";
 import { ShoppingCart } from "lucide-react";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import toast from "react-hot-toast";
-
-type Product = {
-  id: number;
-  user_id: string;
-  product_id: string;
-  quantity: number;
-  size: string;
-};
+import { Product } from "@/lib/types";
 
 export default function Cart() {
   const [subTotal, setSubTotal] = useState<number>(0);
   const [products, setProducts] = useState<Product[]>();
   const [deleteCall, setDeleteCall] = useState(0);
+  const [check, setCheck] = useState(false);
   const deliveryCharges = 5;
 
   useEffect(() => {
@@ -36,20 +31,6 @@ export default function Cart() {
       });
   }, [deleteCall]);
 
-  const handleSubtotalUpdate = (
-    itemSubTotal: number,
-    price: number,
-    operation: string
-  ) => {
-    if (price !== 0 && operation === "+") {
-      setSubTotal((prevSubTotal) => prevSubTotal + price);
-    } else if (price !== 0 && operation === "-") {
-      setSubTotal((prevSubTotal) => prevSubTotal - price);
-    } else {
-      setSubTotal((prevSubTotal) => prevSubTotal + itemSubTotal);
-    }
-  };
-
   const handleDeleteCall = (a: number, price: number, quantity: number) => {
     setDeleteCall((prevSubTotal) => prevSubTotal + a);
     const amount = price * quantity;
@@ -57,8 +38,9 @@ export default function Cart() {
   };
 
   const handleCheckOut = async () => {
+    setCheck(!check);
     try {
-      console.log("Checkout", subTotal + deliveryCharges);
+      // console.log("Checkout", subTotal + deliveryCharges);
       const amount = subTotal + deliveryCharges;
       const res = await fetch(
         process.env.NEXT_PUBLIC_SITE_URL + "api/checkout",
@@ -73,7 +55,6 @@ export default function Cart() {
       if (!res.ok) {
         return toast.error("Failed to create an order.");
       }
-      
       const { url } = await res.json();
       window.location.href = url;
     } catch (error) {
@@ -94,14 +75,14 @@ export default function Cart() {
                   product_id={product.product_id}
                   quantity={product.quantity}
                   size={product.size}
-                  updateSubtotal={handleSubtotalUpdate}
                   updateDeleteCall={handleDeleteCall}
+                  setTotalPrice={setSubTotal}
                 />
               ))}
             </div>
 
             <div className="w-full flex-1 shadow-lg rounded-xl bg-black text-white p-3">
-              <div className="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+              <div className="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
                 <div className="flex items-center justify-between mb-4">
                   <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
                     Order Summary
@@ -144,7 +125,11 @@ export default function Cart() {
                           </p>
                         </div>
                         <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                          ${(subTotal + deliveryCharges).toFixed(2)}
+                          $
+                          {(
+                            subTotal +
+                            deliveryCharges * products.length
+                          ).toFixed(2)}
                         </div>
                       </div>
                     </li>
@@ -152,8 +137,16 @@ export default function Cart() {
                   <Button
                     onClick={handleCheckOut}
                     className="bg-black text-white text-lg w-full rounded-xl"
+                    disabled={check}
                   >
-                    Checkout
+                    {check ? (
+                      <>
+                        <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                        <>Please wait</>
+                      </>
+                    ) : (
+                      <>Checkout</>
+                    )}
                   </Button>
                 </div>
               </div>

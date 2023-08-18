@@ -1,15 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { db, orderTable, orderDetailsTable } from "@/lib/drizzle";
 import { formatDateTime } from "@/lib/dateFormatter";
-
-type Product = {
-  id: number;
-  user_id: string;
-  product_id: string;
-  quantity: number;
-  size: string;
-};
+import { Product } from "@/lib/types";
 
 export const POST = async (request: NextRequest) => {
   const body = await request.json();

@@ -56,6 +56,7 @@ const getSessionAndOrder = async (
         return toast.error("Failed to create an order.");
       }
       console.log(await res.json());
+
       return session;
     } catch (error) {
       console.log("Error here:", error);
@@ -87,7 +88,11 @@ export default function Order({
         searchParams.user_id
       );
       if (session) {
-        setCartCount(0);
+        setCartCount((prevCount: number) => {
+          console.log(prevCount);
+          0;
+          console.log(prevCount);
+        });
         console.log("done");
       }
     };

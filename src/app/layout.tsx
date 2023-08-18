@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import { Toaster } from "react-hot-toast";
 import { cookies } from "next/headers";
 import { CartProvider } from "@/components/context/CartContext";
+import { Product } from "@/lib/types";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,13 +39,6 @@ async function getData() {
     return null;
   }
 }
-type Product = {
-  id: number;
-  user_id: string;
-  product_id: string;
-  quantity: number;
-  size: string;
-};
 
 export default async function RootLayout({
   children,
@@ -58,6 +52,7 @@ export default async function RootLayout({
     totalQuantity = products.reduce((acc, item) => acc + item.quantity, 0);
     totalQuantity = totalQuantity > 0 ? totalQuantity : 0;
   }
+  console.log(totalQuantity);
 
   return (
     <html lang="en">

@@ -10,3 +10,11 @@ export interface IProduct {
   type: string;
   sizes: string[];
 }
+
+export type Product = {
+  id: number;
+  user_id: string;
+  product_id: string;
+  quantity: number;
+  size: string;
+};
