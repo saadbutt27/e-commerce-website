@@ -114,7 +114,7 @@ export default function CartItem(props: {
       props.setTotalPrice((prevTotal: number) => prevTotal + price);
     } else if (action === "decrement" && newQuantity !== 1) {
       setNewQuantity(newQuantity - 1);
-      props.setTotalPrice((prevTotal: number) => prevTotal + price);
+      props.setTotalPrice((prevTotal: number) => prevTotal - price);
     }
   };
 
