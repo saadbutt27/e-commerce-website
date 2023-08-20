@@ -46,6 +46,7 @@ export default function Cart() {
           method: "POST",
           body: JSON.stringify({
             order_delivery_charges: deliveryCharges * len * 100,
+            order_amount: subTotal + deliveryCharges * len,
             products: products,
           }),
         }
