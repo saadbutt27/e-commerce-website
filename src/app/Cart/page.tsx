@@ -37,22 +37,21 @@ export default function Cart() {
     setSubTotal((prevSubTotal) => prevSubTotal - amount);
   };
 
-  const handleCheckOut = async () => {
+  const handleCheckOut = async (len: number) => {
     setCheck(!check);
     try {
-      // console.log("Checkout", subTotal + deliveryCharges);
-      const amount = subTotal + deliveryCharges;
       const res = await fetch(
         process.env.NEXT_PUBLIC_SITE_URL + "api/checkout",
         {
           method: "POST",
           body: JSON.stringify({
-            order_amount: amount,
+            order_delivery_charges: deliveryCharges * len * 100,
             products: products,
           }),
         }
       );
       if (!res.ok) {
+        setCheck(false);
         return toast.error("Failed to create an order.");
       }
       const { url } = await res.json();
@@ -135,7 +134,7 @@ export default function Cart() {
                     </li>
                   </ul>
                   <Button
-                    onClick={handleCheckOut}
+                    onClick={() => handleCheckOut(products.length)}
                     className="bg-black text-white text-lg w-full rounded-xl"
                     disabled={check}
                   >

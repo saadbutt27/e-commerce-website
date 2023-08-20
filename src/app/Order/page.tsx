@@ -3,14 +3,7 @@ import React from "react";
 import { stripe } from "@/lib/stripe";
 import toast from "react-hot-toast";
 import { useCart } from "@/components/context/CartContext";
-
-type Product = {
-  id: number;
-  user_id: string;
-  product_id: string;
-  quantity: number;
-  size: string;
-};
+import { Product } from "@/lib/types";
 
 const getProducts = async (user_id: string) => {
   try {
@@ -74,7 +67,7 @@ export default function Order({
     session_id: string;
   };
 }) {
-  const { cartCount, setCartCount } = useCart();
+  const { setCartCount } = useCart();
   console.log(searchParams);
   if (searchParams.success) {
     const sessionId = searchParams.session_id;
@@ -88,12 +81,8 @@ export default function Order({
         searchParams.user_id
       );
       if (session) {
-        setCartCount((prevCount: number) => {
-          console.log(prevCount);
-          0;
-          console.log(prevCount);
-        });
-        console.log("done");
+        setCartCount(0);
+        // console.log("done");
       }
     };
     myFunc()
