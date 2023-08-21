@@ -53,31 +53,6 @@ export default function CartItem(props: {
     }
   }, [product, props.quantity]);
 
-  const notify = (message: string) =>
-    toast(message, {
-      duration: 4000,
-      position: "top-center",
-
-      // Styling
-      style: {},
-      className: "",
-
-      // Custom Icon
-      icon: "☑️",
-
-      // Change colors of success/error/loading icon
-      iconTheme: {
-        primary: "#000",
-        secondary: "#fff",
-      },
-
-      // Aria
-      ariaProps: {
-        role: "status",
-        "aria-live": "polite",
-      },
-    });
-
   const handleDelete = async (price: number) => {
     try {
       const toastId = toast.loading("Deleting from cart...");
@@ -104,7 +79,7 @@ export default function CartItem(props: {
         });
     } catch (error) {
       console.log("error: ", error);
-      toast.error("Can't update!")
+      toast.error("Can't update!");
     }
   };
 
@@ -119,7 +94,7 @@ export default function CartItem(props: {
   };
 
   const handleQuantityUpdate = async (id: string, price: number) => {
-    console.log(props.quantity, newQuantity, props.quantity === newQuantity);
+    // console.log(props.quantity, newQuantity, props.quantity === newQuantity);
     if (props.quantity === newQuantity) return;
     try {
       const toastId = toast.loading("Updating cart...");
@@ -132,8 +107,8 @@ export default function CartItem(props: {
           action: "update",
         }),
       });
-
-      const result = await res.json();
+      if (!res.ok) throw new Error("Cannot update");
+      // const result = await res.json();
       props.updateDeleteCall(1, price, newQuantity);
       toast.success("Cart has been updated", {
         id: toastId,
@@ -143,7 +118,7 @@ export default function CartItem(props: {
       );
     } catch (error) {
       console.log(error);
-      toast.error("Can't update!")
+      toast.error("Can't update!");
     }
   };
 

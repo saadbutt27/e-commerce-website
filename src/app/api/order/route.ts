@@ -8,8 +8,8 @@ export const POST = async (request: NextRequest) => {
   const req = request.nextUrl;
   const uid = req.searchParams.get("user_id") as string;
 
-  console.log("user id ", uid);
-  console.log(body);
+  // console.log("user id ", uid);
+  // console.log(body);
   try {
     // make a order record in the database
     let res;

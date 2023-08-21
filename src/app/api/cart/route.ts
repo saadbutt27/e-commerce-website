@@ -41,7 +41,7 @@ export const POST = async (request: NextRequest) => {
     setCookies.set("user_id", uid);
   }
   // console.log("q ", req.product_id, req.quantity);
-  let u_id = cookies().get("user_id")?.value as string;
+  // let u_id = cookies().get("user_id")?.value as string;
   try {
     const res = await db
       .insert(cartTable)
@@ -61,6 +61,7 @@ export const POST = async (request: NextRequest) => {
     console.log(error);
   }
 };
+
 export const PUT = async (request: NextRequest) => {
   const req = await request.json();
   let uid = cookies().get("user_id")?.value as string;
