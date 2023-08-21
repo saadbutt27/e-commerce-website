@@ -1,3 +1,43 @@
+**Project Description: E-Commerce Website**
+
+This project is an interactive and user-friendly e-commerce website that offers a seamless shopping experience. Leveraging a combination of advanced technologies and design principles, the website caters to users' needs through its intuitive interface and engaging user experience.
+
+**Technology Stack:**
+
+- Frontend and Backend: Next.js
+- Styling: Tailwind CSS and Shadcn UI
+- Database: Vercel Postgres
+- APIs: REST APIs for backend and frontend interaction
+- Icons: Lucid React Icons
+- Content Management: Sanity
+- Checkout and Payment: Stripe integration via Sanity
+- State Management: Context API
+- Notifications: React-hot-toast library
+
+**Functionalities:**
+
+1. **Home Page:** The home page offers an enticing introduction to the platform, featuring promotions and a newsletter subscription option.
+
+2. **Social Media Integration:** The footer section provides quick access to social media links for users to engage further.
+
+3. **Product Categories:** Users can explore products across distinct categories: Male, Female, and Kids, or view all products collectively.
+
+4. **Product Details:** Each product has a dedicated page that presents its description, sizes, and other relevant information.
+
+5. **Cart Management:** Users can add selected items to their cart, which is stored in the database with a unique user ID generated through cookies.
+
+6. **Cart Overview:** The cart page offers an overview of the order and the items added to it, helping users make informed decisions.
+
+7. **Checkout Process:** Users can proceed to checkout, entering necessary information. Successful payment redirects them to the home page, while an unsuccessful attempt returns them to the cart page.
+
+8. **Order Mangement:** Users orders will be stored in databse with their order details after payment is done, to ensure the delivery of correct items to users.
+
+9. **User-Centric Experience:** The website focuses on enhancing user experience through smooth navigation, logical flow, and interactive design.
+
+This e-commerce website serves as a comprehensive platform, integrating advanced technologies to ensure an enjoyable and efficient shopping journey for users.
+
+---
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
