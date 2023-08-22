@@ -25,8 +25,8 @@ export default function Cart() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setProducts((prev) => data);
-        console.log(data);
+        setProducts(data);
+        // console.log(data);
       })
       .catch((error) => {
         console.log("Error fetching data:", error);
