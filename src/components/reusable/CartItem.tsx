@@ -19,6 +19,7 @@ export default function CartItem(props: {
   const { setCartCount } = useCart();
   const [product, setProduct] = useState<IProduct[]>();
   const [newQuantity, setNewQuantity] = useState(props.quantity);
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
     client
@@ -94,7 +95,7 @@ export default function CartItem(props: {
   };
 
   const handleQuantityUpdate = async (id: string, price: number) => {
-    // console.log(props.quantity, newQuantity, props.quantity === newQuantity);
+    setUpdating(true);
     if (props.quantity === newQuantity) return;
     try {
       const toastId = toast.loading("Updating cart...");
@@ -109,6 +110,7 @@ export default function CartItem(props: {
       });
       if (!res.ok) throw new Error("Cannot update");
       // const result = await res.json();
+      // console.log(res.ok);
       props.updateDeleteCall(1, price, newQuantity);
       toast.success("Cart has been updated", {
         id: toastId,
@@ -119,6 +121,8 @@ export default function CartItem(props: {
     } catch (error) {
       console.log(error);
       toast.error("Can't update!");
+    } finally {
+      setUpdating(false);
     }
   };
 
@@ -190,10 +194,11 @@ export default function CartItem(props: {
                   handleQuantityUpdate(product[0]._id, product[0].price)
                 }
                 className={`flex justify-center items-center bg-black text-white py-3 gap-2 ${
-                  props.quantity === newQuantity
+                  props.quantity === newQuantity || updating
                     ? "pointer-events-none cursor-pointer"
                     : ""
                 }`}
+                disabled={props.quantity === newQuantity || updating}
               >
                 <ShoppingCart />
                 Update Quantity

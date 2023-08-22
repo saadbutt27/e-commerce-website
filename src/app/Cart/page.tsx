@@ -15,6 +15,8 @@ export default function Cart() {
   const deliveryCharges = 5;
 
   useEffect(() => {
+    setProducts([]);
+    setSubTotal(0);
     fetch(process.env.NEXT_PUBLIC_SITE_URL + "api/cart", {
       method: "GET",
       headers: {
@@ -24,7 +26,7 @@ export default function Cart() {
       .then((res) => res.json())
       .then((data) => {
         setProducts((prev) => data);
-        // console.log(data);
+        console.log(data);
       })
       .catch((error) => {
         console.log("Error fetching data:", error);
@@ -69,9 +71,9 @@ export default function Cart() {
         {products.length > 0 ? (
           <div className="flex flex-col xl:flex-row lg:justify-around lg:items-start mt-10 gap-y-4 gap-x-10">
             <div className="flex-[2_1_0%]">
-              {products.map((product) => (
+              {products.map((product, index) => (
                 <CartItem
-                  key={product.product_id}
+                  key={product.product_id + index}
                   product_id={product.product_id}
                   quantity={product.quantity}
                   size={product.size}
