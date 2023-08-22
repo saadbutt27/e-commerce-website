@@ -1,23 +1,26 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { urlForImage } from "../../../sanity/lib/image";
 
-export default function product({
+export default function Product({
   imgSrc,
   productName,
   productPrice,
   productId,
+  slug,
 }: {
   imgSrc: any;
   productName: string;
   productPrice: number;
   productId: string;
+  slug: string;
 }) {
   return (
-    <Link href={`/ProductDetails/${productId}`}>
+    <Link href={`/ProductDetails/${slug}`}>
       <div className="hover:scale-105 duration-300">
         <Image
-          src={imgSrc}
+          src={urlForImage(imgSrc).url()}
           alt="product1"
           width={400}
           height={400}

@@ -6,6 +6,17 @@ export const product = defineType({
   title: "Product",
   fields: [
     defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: {
+        source: "title",
+        maxLength: 200,
+        slugify: (input) =>
+          input.toLowerCase().replace(/\s+/g, "-").slice(0, 200),
+      },
+    }),
+    defineField({
       name: "title",
       title: "Product Title",
       type: "string",
@@ -29,11 +40,13 @@ export const product = defineType({
       name: "sizes",
       title: "Product Size",
       type: "array",
-      of: [{
-        name: "size",
-        title: "Size",
-        type: "string"
-      }]
+      of: [
+        {
+          name: "size",
+          title: "Size",
+          type: "string",
+        },
+      ],
     }),
     defineField({
       name: "image",

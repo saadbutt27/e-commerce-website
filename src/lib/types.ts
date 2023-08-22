@@ -9,6 +9,7 @@ export interface IProduct {
   category: string;
   type: string;
   sizes: string[];
+  slug: string
 }
 
 export type Product = {

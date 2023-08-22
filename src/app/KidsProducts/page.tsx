@@ -1,12 +1,11 @@
 import React from "react";
 import Product from "@/components/reusable/Product";
 import { client } from "@/lib/sanityClient";
-import { urlForImage } from "../../../sanity/lib/image";
 import { IProduct } from "@/lib/types";
 
 const getProductData = async () => {
-  const res =
-    await client.fetch(`*[_type=="product" && category->name == 'Kids'] {
+  const res = await client.fetch(`*[_type=="product" && category->name == 'Kids'] {
+    "slug":slug.current,
       price, 
       _id,
       title,
@@ -31,10 +30,11 @@ export default async function KidsProducts() {
         {data.map((product, index) => (
           <Product
             key={index}
-            imgSrc={urlForImage(product.image).url()}
+            imgSrc={product.image}
             productName={product.title}
             productPrice={product.price}
             productId={product._id}
+            slug={product.slug}
           />
         ))}
       </div>

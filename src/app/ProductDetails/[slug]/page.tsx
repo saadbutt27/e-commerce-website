@@ -3,8 +3,10 @@ import { client } from "@/lib/sanityClient";
 import { IProduct } from "@/lib/types";
 import ProductDetailsComp from "@/components/reusable/ProductDetailsComp";
 
-const getProductData = async (id: string) => {
-  const res = await client.fetch(`*[_type=="product" && _id == "${id}"] {
+const getProductData = async (slug: string) => {
+  const res =
+    await client.fetch(`*[_type=="product" && slug.current == "${slug}"] {
+    slug,
     price, 
     _id,
     title,
@@ -25,10 +27,10 @@ export default async function ProductDetails({
   params: { slug: string };
 }) {
   const product: IProduct[] = await getProductData(params.slug);
-  
+
   return (
     <section>
-      <ProductDetailsComp product={product[0]}/>
+      <ProductDetailsComp product={product[0]} />
       <div className="mt-16 flex flex-col gap-8">
         <h2 className="text-2xl font-bold border-b-2 border-b-gray-200 py-10">
           Product Information
