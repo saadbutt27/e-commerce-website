@@ -4,7 +4,8 @@ import { client } from "@/lib/sanityClient";
 import { IProduct } from "@/lib/types";
 
 const getProductData = async () => {
-  const res = await client.fetch(`*[_type=="product" && category->name == 'Kids'] {
+  const res =
+    await client.fetch(`*[_type=="product" && category->name == 'Kids'] {
     "slug":slug.current,
       price, 
       _id,
