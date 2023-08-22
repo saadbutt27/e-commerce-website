@@ -24,7 +24,7 @@ export default function Product({
           alt="product1"
           width={400}
           height={400}
-          className="object-cover object-center w-full h-[300] md:w-[380px] md:h-[400px] "
+          className="object-cover h-[400px]"
         />
         <h3 className="text-xl font-semibold">{productName}</h3>
         <p className="text-xl font-semibold">${productPrice}</p>

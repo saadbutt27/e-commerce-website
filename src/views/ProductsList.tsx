@@ -6,6 +6,7 @@ import { IProduct } from "@/lib/types";
 
 const getProductData = async () => {
   const res = await client.fetch(`*[_type=="product"] {
+    "slug":slug.current,
       price, 
       _id,
       title,
@@ -29,7 +30,7 @@ export default async function ProductsList() {
       <h1 className="capitalize text-4xl text-center font-semibold mb-10">
         check what we have
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-20 gap-x-24">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-20 gap-x-4">
         {data[0] &&
           data.map((product, index) => (
             <Product
@@ -38,6 +39,7 @@ export default async function ProductsList() {
               productName={product.title}
               productPrice={product.price}
               productId={product._id}
+              slug={product.slug}
             />
           ))}
       </div>

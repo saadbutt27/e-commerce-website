@@ -36,7 +36,7 @@ export default function Promotions() {
             </button>
           </div>
         </div>
-        <div className="grid lg:col-span-2 grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid lg:col-span-2 grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="bg-[#efe1c7] flex flex-col justify-between">
             <div className="my-6 mx-8 text-lg">
               <p>Flex Sweatshirt</p>

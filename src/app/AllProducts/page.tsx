@@ -20,13 +20,13 @@ const getProductData = async () => {
 
 export default async function AllProducts() {
   const data: IProduct[] = await getProductData();
-  
+
   return (
     <section>
       <h1 className="capitalize text-5xl text-center font-bold mb-10">
         Products
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-8 gap-x-10">
         {data.map((product, index) => (
           <Product
             key={product._id + index}

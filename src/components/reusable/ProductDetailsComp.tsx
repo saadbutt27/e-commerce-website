@@ -48,7 +48,7 @@ export default function ProductDetailsComp({ product }: { product: IProduct }) {
         alt="product1"
         width={300}
         height={400}
-        className="object-cover object-top"
+        className="object-cover h-[430px]"
       />
       <div className="flex flex-col space-y-8">
         <div>
