@@ -16,7 +16,6 @@ export default function Product({
   productId: string;
   slug: string;
 }) {
-  console.log(slug);
   return (
     <Link href={`/ProductDetails/${slug}`}>
       <div className="hover:scale-105 duration-300">

@@ -26,9 +26,7 @@ export default async function ProductDetails({
 }: {
   params: { slug: string };
 }) {
-  console.log(params.slug);
   const product: IProduct[] = await getProductData(params.slug);
-  console.log(product);
 
   return (
     <section>

@@ -9,11 +9,14 @@ import toast from "react-hot-toast";
 import { ShoppingCart } from "lucide-react";
 
 export default function ProductDetailsComp({ product }: { product: IProduct }) {
-  const [quantity, setQuantity] = useState(1);
-  const { setCartCount } = useCart();
-  const [requireSize, setRequireSize] = useState<string>();
+  const [quantity, setQuantity] = useState(1); // state to track quantity changes
+  const { setCartCount } = useCart(); // context api's state to change cartCount state globally
+  const [requireSize, setRequireSize] = useState<string>(); // size state 
 
   const handleAddToCart = async () => {
+    // This function will insert an item to cart table in the databse, quantity and size is required
+    // Toast notifications are used which will show loader and on sucess show show success notification
+    // Cart count will be updated to the quantity added to previous cart count
     if (!requireSize) toast.error("Please select a size!");
     else {
       try {
