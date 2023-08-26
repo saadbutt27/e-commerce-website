@@ -5,6 +5,7 @@ import { urlForImage } from "../../sanity/lib/image";
 import Product from "@/components/reusable/Product";
 import { IProduct } from "@/lib/types";
 import { Carousel } from "@trendyol-js/react-carousel";
+// import Slider from "react-slick";
 
 const getProductData = async () => {
   const res = await client.fetch(`*[_type=="product" && is_main == true] {
@@ -24,6 +25,14 @@ const getProductData = async () => {
 
 export default async function ProductsList() {
   const data: IProduct[] = await getProductData();
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
   return (
     <section className="mb-20" id="products">
       <h3 className="uppercase text-base text-center mb-2 text-blue-700 font-semibold">
@@ -32,7 +41,7 @@ export default async function ProductsList() {
       <h1 className="capitalize text-4xl text-center font-semibold mb-10">
         check what we have
       </h1>
-      <div className="flex flex-col justify-center select-none ml-4">
+      <div className="flex flex-col justify-center select-none">
         <Carousel
           show={4}
           slide={2}
@@ -41,16 +50,18 @@ export default async function ProductsList() {
           swipeOn={0.3}
         >
           {data[0] &&
-            data.map((product) => (
-              <Product
-                key={product._id}
-                imgSrc={urlForImage(product.image).url()}
-                productName={product.title}
-                productPrice={product.price}
-                productId={product._id}
-                slug={product.slug}
-              />
-            ))}
+            data.map((product) => {
+              return (
+                <Product
+                  key={product._id}
+                  imgSrc={urlForImage(product.image).url()}
+                  productName={product.title}
+                  productPrice={product.price}
+                  productId={product._id}
+                  slug={product.slug}
+                />
+              );
+            })}
         </Carousel>
       </div>
       <div className="flex justify-center my-5">
