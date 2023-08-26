@@ -80,7 +80,7 @@ export default function CartItem(props: {
         });
     } catch (error) {
       console.log("error: ", error);
-      toast.error("Can't update!");
+      toast.error("Can't delete!");
     }
   };
 
@@ -143,17 +143,20 @@ export default function CartItem(props: {
               <p className="text-lg font-semibold text-gray-400">
                 {product[0].type}
               </p>
+              <p className="text-base font-semibold">
+              Price: ${(product[0].price).toFixed(2)}
+            </p>
             </div>
             <Button
               onClick={() => handleDelete(product[0].price)}
-              className="justify-self-end"
+              className="justify-self-end hover:text-red-600"
             >
               <Trash2 />
             </Button>
           </div>
           <div className="w-full grid grid-cols-1 lg:grid-cols-2 items-baseline justify-between">
             <p className="text-base font-semibold">
-              Price: ${(product[0].price * newQuantity).toFixed(2)}
+              Item Total: ${(product[0].price * newQuantity).toFixed(2)}
             </p>
             <div className="order-1 md:order-last">
               <div className="flex items-baseline justify-between space-y-2">
@@ -187,7 +190,7 @@ export default function CartItem(props: {
             <div className="inline-flex space-x-2">
               <CalendarClock /> <p>Shipment in 1 week</p>
             </div>
-            <div className="flex-[2_1_0%] flex items-center lg:justify-around">
+            <div className="flex-[2_1_0%] flex items-center lg:justify-around rounded-lg md:ml-20">
               <Button
                 variant="outline"
                 onClick={() =>

@@ -11,7 +11,6 @@ import { sql } from "@vercel/postgres";
 //   primary key (user_id, product_id, size)
 // )
 
-
 export const cartTable = pgTable("cart", {
   id: serial("id"),
   user_id: varchar("user_id", {
@@ -33,6 +32,7 @@ export const orderTable = pgTable("orders", {
   }).notNull(),
   order_date: date("order_date").notNull(),
   order_amount: integer("order_amount").notNull(),
+  delivery_charges: integer("delivery_charges").notNull(),
 });
 
 export const orderDetailsTable = pgTable("order_details", {

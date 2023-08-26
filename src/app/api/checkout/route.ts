@@ -70,6 +70,7 @@ export const POST = async (request: NextRequest) => {
           (acc, item) => acc + item.price * item.quantity,
           0
         ),
+        delivery_charges: body.order_delivery_charges,
       },
     });
     // console.log("cart item details:", cartItemDetails);
@@ -104,8 +105,11 @@ export const POST = async (request: NextRequest) => {
           },
         },
       ],
+      billing_address_collection: "auto",
       metadata: { userId: user_id },
       payment_method_types: ["card"],
+      submit_type: "pay",
+      invoice_creation: { enabled: true },
       customer: (await customer).id,
       mode: "payment",
       success_url: `${request.headers.get(

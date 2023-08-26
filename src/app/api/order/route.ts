@@ -17,6 +17,7 @@ export const POST = async (request: NextRequest) => {
         user_id: uid,
         order_date: formatDateTime(new Date().toString()),
         order_amount: body.order_amount,
+        delivery_charges: body.order_delivery_charges,
       })
       .returning();
     const order = res;

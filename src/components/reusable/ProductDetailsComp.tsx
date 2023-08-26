@@ -11,7 +11,7 @@ import { ShoppingCart } from "lucide-react";
 export default function ProductDetailsComp({ product }: { product: IProduct }) {
   const [quantity, setQuantity] = useState(1); // state to track quantity changes
   const { setCartCount } = useCart(); // context api's state to change cartCount state globally
-  const [requireSize, setRequireSize] = useState<string>(); // size state 
+  const [requireSize, setRequireSize] = useState<string>(); // size state
 
   const handleAddToCart = async () => {
     // This function will insert an item to cart table in the databse, quantity and size is required
@@ -19,6 +19,8 @@ export default function ProductDetailsComp({ product }: { product: IProduct }) {
     // Cart count will be updated to the quantity added to previous cart count
     if (!requireSize) toast.error("Please select a size!");
     else {
+      const mySize = requireSize;
+      setRequireSize("");
       try {
         const toastId = toast.loading("Adding to cart...");
         const res = await fetch(process.env.NEXT_PUBLIC_SITE_URL + "api/cart", {

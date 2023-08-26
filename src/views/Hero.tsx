@@ -15,7 +15,7 @@ export default function Hero() {
     <section className="lg:flex items-center lg:justify-end flex-col lg:flex-row gap-y-10 xl:gap-x-20 py-6 mb-20">
       <div className="flex-1 space-y-10">
         <Badge className="py-2 px-6 bg-blue-200 text-base text-blue-700 font-bold rounded-[2px]">
-          Sale 70%
+          Sale 75%
         </Badge>
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mt-6">
           An Industrial Take on Streetwear

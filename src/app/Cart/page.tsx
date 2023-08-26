@@ -2,14 +2,15 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import CartItem from "@/components/reusable/CartItem";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Trash } from "lucide-react";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import toast from "react-hot-toast";
 import { Product } from "@/lib/types";
-// import { Skeleton } from "@/components/ui/skeleton";
 import getStipePromise from "@/lib/stripe";
+import { useCart } from "@/components/context/CartContext";
 
 export default function Cart() {
+  const { setCartCount } = useCart();
   const [subTotal, setSubTotal] = useState<number>(0);
   const [products, setProducts] = useState<Product[]>();
   const [deleteCall, setDeleteCall] = useState(0);
@@ -68,10 +69,50 @@ export default function Cart() {
     }
   };
 
+  const handleDeleteAll = () => {
+    if (!products) return;
+    // try {
+    const toastId = toast.loading("Deleting from cart...");
+    fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}api/clear-cookies?user_id=${products[0].user_id}`,
+      {
+        cache: "no-store",
+      }
+    )
+      .then((data) => {
+        setProducts([]);
+        toast.success("Cart cleard", {
+          id: toastId,
+        });
+        setCartCount(0);
+      })
+      .catch((error) => {
+        console.log("Error:", error);
+      });
+    // } catch (error) {
+    //   console.log("error: ", error);
+    //   toast.error("Can't delete!");
+    // }
+  };
+
   if (products) {
     return (
       <section>
-        <h2 className="text-4xl font-bold">Shopping Cart</h2>
+        <div className="flex sm:flex-row flex-col justify-between sm:items-center gap-y-3 sm:gap-y-0">
+          <h2 className="text-4xl font-bold">Shopping Cart</h2>
+          {products.length > 0 ? (
+            <Button
+              variant="outline"
+              className="bg-black text-white rounded-lg text-lg self-end"
+              onClick={handleDeleteAll}
+            >
+              <ShoppingCart className="mr-2" />
+              <>Clear Cart</>
+            </Button>
+          ) : (
+            <></>
+          )}
+        </div>
         {products.length > 0 ? (
           <div className="flex flex-col xl:flex-row xl:justify-around xl:items-start mt-10 gap-y-4 gap-x-10">
             <div className="flex-[2_1_0%]">
@@ -142,7 +183,7 @@ export default function Cart() {
                   </ul>
                   <Button
                     onClick={() => handleCheckOut(products.length)}
-                    className="bg-black text-white text-lg w-full rounded-xl"
+                    className="bg-black text-white text-lg w-full rounded-lg"
                     disabled={check}
                   >
                     {check ? (

@@ -56,6 +56,7 @@ export const POST = async (request: NextRequest) => {
         set: { quantity: sql`${cartTable.quantity} + ${req.quantity}` },
       })
       .returning();
+    // console.log("Inserted:", res);
     return NextResponse.json(res);
   } catch (error) {
     console.log(error);
@@ -117,7 +118,6 @@ export const DELETE = async (request: NextRequest) => {
         .where(eq(cartTable.user_id, u_id))
         .returning();
     }
-    // console.log("del api:", res);
     return NextResponse.json(res);
   } catch (error) {
     console.log(error);

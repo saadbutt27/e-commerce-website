@@ -9,13 +9,18 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
 
-const createOrder = async (products: Product[], amount: number) => {
+const createOrder = async (
+  products: Product[],
+  amount: number,
+  delivery: number
+) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}api/order`, {
       method: "POST",
       body: JSON.stringify({
         order_amount: amount,
         products: products,
+        order_delivery_charges: delivery/100,
       }),
     });
     if (!res.ok) throw new Error("Can't make order.");
@@ -54,7 +59,8 @@ export async function POST(request: Request) {
       console.log("Customer:", customer);
       const order = await createOrder(
         JSON.parse(customer.metadata.cartItems),
-        customer.metadata.total_amount
+        customer.metadata.total_amount,
+        customer.metadata.delivery_charges
       );
       if (!order?.ok) throw new Error("error making order");
     // console.log("OrderW:", order);
