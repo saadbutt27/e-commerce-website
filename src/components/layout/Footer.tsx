@@ -6,7 +6,7 @@ import { Github, Facebook, Linkedin, Twitter, Instagram } from "lucide-react";
 
 export default function Footer() {
   return (
-    <section className="px-12 mt-20 md:px-24 ">
+    <section className="px-8 mt-20 md:px-24 ">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 md:gap-y-0">
         <div className="grid gap-y-4 mr-20">
           <Image src={Logo} width={200} height={200} alt="Logo" />

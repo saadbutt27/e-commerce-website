@@ -58,7 +58,7 @@ export default async function RootLayout({
       <body>
         <CartProvider>
           <Navbar cartItemsCount={totalQuantity} />
-          <main className="p-12 md:py-12 md:px-24">{children}</main>
+          <main className="px-6 py-12 md:px-24">{children}</main>
           <Footer />
           <Toaster />
         </CartProvider>
