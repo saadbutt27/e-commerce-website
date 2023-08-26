@@ -17,8 +17,8 @@ export default async function Home({
       };
 }) {
   const { setCartCount } = useCart();
-  if (searchParams?.success) {
-    useEffect(() => {
+  useEffect(() => {
+    if (searchParams?.success) {
       fetch(
         `${process.env.NEXT_PUBLIC_SITE_URL}api/clear-cookies?user_id=${searchParams.success_id}`,
         {
@@ -27,8 +27,8 @@ export default async function Home({
       ).then((data) => {
         setCartCount(0);
       });
-    }, []);
-  }
+    }
+  }, []);
   return (
     <>
       <Hero />
