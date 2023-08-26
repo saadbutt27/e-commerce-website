@@ -1,9 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { stripe } from "@/lib/stripe";
+// import { stripe } from "@/lib/stripe";
 import { client } from "@/lib/sanityClient";
 import { Image as IImage } from "sanity";
 import { urlForImage } from "../../../../sanity/lib/image";
+import Stripe from "stripe";
+
+const key = process.env.STRIPE_SECRET_KEY || "";
+
+const stripe = new Stripe(key, {
+  apiVersion: "2022-11-15",
+  typescript: true,
+});
 
 type ProductData = {
   _id: string;
@@ -54,6 +62,16 @@ export const POST = async (request: NextRequest) => {
         quantity: product.quantity,
       });
     }
+    const customer = stripe.customers.create({
+      metadata: {
+        userId: user_id,
+        cartItems: JSON.stringify(body.products),
+        total_amount: cartItemDetails.reduce(
+          (acc, item) => acc + item.price * item.quantity,
+          0
+        ),
+      },
+    });
     // console.log("cart item details:", cartItemDetails);
     const checkoutSession = await stripe.checkout.sessions.create({
       line_items: cartItemDetails.map((item) => ({
@@ -62,6 +80,9 @@ export const POST = async (request: NextRequest) => {
           product_data: {
             name: item.title,
             images: [urlForImage(item.image).url()],
+            metadata: {
+              product_id: item._id,
+            },
           },
           unit_amount: item.price * 100,
         },
@@ -73,8 +94,8 @@ export const POST = async (request: NextRequest) => {
             display_name: "Deliver Charges",
             type: "fixed_amount",
             delivery_estimate: {
-              maximum: { unit: "week", value: 2 },
-              minimum: { unit: "business_day", value: 5 },
+              maximum: { unit: "business_day", value: 6 },
+              minimum: { unit: "business_day", value: 2 },
             },
             fixed_amount: {
               amount: body.order_delivery_charges,
@@ -83,9 +104,14 @@ export const POST = async (request: NextRequest) => {
           },
         },
       ],
+      metadata: { userId: user_id },
+      payment_method_types: ["card"],
+      customer: (await customer).id,
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}Order?user_id=${user_id}&amount=${body.order_amount}&success=true&session_id={CHECKOUT_SESSION_ID}`, // where we want to go to when checkout is successfully completed
-      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}Cart?cancelled=true`,
+      success_url: `${request.headers.get(
+        "origin"
+      )}/?success=true&success_id=${user_id}`,
+      cancel_url: `${request.headers.get("origin")}/Cart?cancelled=true`,
     });
 
     return NextResponse.json({ url: checkoutSession.url });

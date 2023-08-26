@@ -91,14 +91,12 @@ export const PUT = async (request: NextRequest) => {
 };
 
 export const DELETE = async (request: NextRequest) => {
-  // console.log("Hello from DELETE");
   const req = request.nextUrl;
   const product_id = req.searchParams.get("product_id") as string;
   const size = req.searchParams.get("size") as string;
   const u_id = req.searchParams.get("user_id") as string;
   const uid = cookies().get("user_id")?.value as string;
 
-  // console.log(product_id, uid, u_id);
   try {
     let res;
     if (product_id) {

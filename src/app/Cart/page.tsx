@@ -6,6 +6,8 @@ import { ShoppingCart } from "lucide-react";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import toast from "react-hot-toast";
 import { Product } from "@/lib/types";
+// import { Skeleton } from "@/components/ui/skeleton";
+import getStipePromise from "@/lib/stripe";
 
 export default function Cart() {
   const [subTotal, setSubTotal] = useState<number>(0);
@@ -42,10 +44,12 @@ export default function Cart() {
   const handleCheckOut = async (len: number) => {
     setCheck(!check);
     try {
+      const stripe = await getStipePromise();
       const res = await fetch(
         process.env.NEXT_PUBLIC_SITE_URL + "api/checkout",
         {
           method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             order_delivery_charges: deliveryCharges * len * 100,
             order_amount: subTotal + deliveryCharges * len,
@@ -69,7 +73,7 @@ export default function Cart() {
       <section>
         <h2 className="text-4xl font-bold">Shopping Cart</h2>
         {products.length > 0 ? (
-          <div className="flex flex-col xl:flex-row lg:justify-around lg:items-start mt-10 gap-y-4 gap-x-10">
+          <div className="flex flex-col xl:flex-row xl:justify-around xl:items-start mt-10 gap-y-4 gap-x-10">
             <div className="flex-[2_1_0%]">
               {products.map((product, index) => (
                 <CartItem
@@ -83,7 +87,7 @@ export default function Cart() {
               ))}
             </div>
 
-            <div className="w-full flex-1 shadow-lg rounded-xl bg-black text-white p-3">
+            <div className="w-full md:w-2/3 xl:w-full flex-1 shadow-lg rounded-xl bg-black text-white p-3 self-center">
               <div className="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
                 <div className="flex items-center justify-between mb-4">
                   <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
@@ -189,6 +193,13 @@ export default function Cart() {
           <span className="sr-only">Loading...</span>
         </div>
       </div>
+      {/* <div className="flex items-center space-x-4">
+        <Skeleton className="h-12 w-12 rounded-full bg-gray-200" />
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[250px] bg-gray-200" />
+          <Skeleton className="h-4 w-[200px] bg-gray-200" />
+        </div>
+      </div>{" "} */}
     </section>
   );
 }
