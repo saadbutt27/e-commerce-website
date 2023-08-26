@@ -68,5 +68,10 @@ export const product = defineType({
         },
       ],
     }),
+    defineField({
+      name: "is_main",
+      title: "Is Main",
+      type: "boolean",
+    }),
   ],
 });

@@ -7,12 +7,13 @@ import { IProduct } from "@/lib/types";
 import { Carousel } from "@trendyol-js/react-carousel";
 
 const getProductData = async () => {
-  const res = await client.fetch(`*[_type=="product"] {
+  const res = await client.fetch(`*[_type=="product" && is_main == true] {
     "slug":slug.current,
       price, 
       _id,
       title,
       image,
+      is_main,
       alt,
       category -> {
         name
@@ -22,8 +23,7 @@ const getProductData = async () => {
 };
 
 export default async function ProductsList() {
-  const data1: IProduct[] = await getProductData();
-  const data = data1.slice(0, 6);
+  const data: IProduct[] = await getProductData();
   return (
     <section className="mb-20" id="products">
       <h3 className="uppercase text-base text-center mb-2 text-blue-700 font-semibold">

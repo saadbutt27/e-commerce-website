@@ -9,7 +9,8 @@ export interface IProduct {
   category: string;
   type: string;
   sizes: string[];
-  slug: string
+  slug: string,
+  isMain:boolean
 }
 
 export type Product = {
