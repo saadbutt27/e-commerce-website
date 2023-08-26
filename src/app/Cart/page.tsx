@@ -15,6 +15,7 @@ export default function Cart() {
   const [products, setProducts] = useState<Product[]>();
   const [deleteCall, setDeleteCall] = useState(0);
   const [check, setCheck] = useState(false);
+  const [deleteAll, setDeleteAll] = useState(false);
   const deliveryCharges = 5;
 
   useEffect(() => {
@@ -71,7 +72,7 @@ export default function Cart() {
 
   const handleDeleteAll = () => {
     if (!products) return;
-    // try {
+    setDeleteAll(!check);
     const toastId = toast.loading("Deleting from cart...");
     fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL}api/clear-cookies?user_id=${products[0].user_id}`,
@@ -85,14 +86,15 @@ export default function Cart() {
           id: toastId,
         });
         setCartCount(0);
+        setDeleteAll(false);
       })
       .catch((error) => {
         console.log("Error:", error);
+        toast.success("Can't clear cart at this moment", {
+          id: toastId,
+        });
+        setDeleteAll(false);
       });
-    // } catch (error) {
-    //   console.log("error: ", error);
-    //   toast.error("Can't delete!");
-    // }
   };
 
   if (products) {
@@ -128,7 +130,7 @@ export default function Cart() {
               ))}
             </div>
 
-            <div className="w-full md:w-2/3 xl:w-full flex-1 shadow-lg rounded-xl bg-black text-white p-3 self-center">
+            <div className="w-full sm:w-2/3 lg:w-1/2 xl:w-full flex-1 shadow-lg rounded-xl bg-black text-white p-3 self-center xl:self-start">
               <div className="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
                 <div className="flex items-center justify-between mb-4">
                   <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
@@ -234,13 +236,6 @@ export default function Cart() {
           <span className="sr-only">Loading...</span>
         </div>
       </div>
-      {/* <div className="flex items-center space-x-4">
-        <Skeleton className="h-12 w-12 rounded-full bg-gray-200" />
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-[250px] bg-gray-200" />
-          <Skeleton className="h-4 w-[200px] bg-gray-200" />
-        </div>
-      </div>{" "} */}
     </section>
   );
 }

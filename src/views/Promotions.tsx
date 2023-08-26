@@ -39,7 +39,7 @@ export default function Promotions() {
         <div className="grid lg:col-span-2 grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="bg-[#efe1c7] flex flex-col justify-between">
             <div className="my-6 mx-8 text-lg">
-              <p>Flex Sweatshirt</p>
+              <p>Flex T-Shirt</p>
               <p className="font-semibold">
                 <span className="line-through font-normal">$100.00</span> $75.00
               </p>

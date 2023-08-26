@@ -18,11 +18,11 @@ export default function Product({
 }) {
   return (
     <Link href={`/ProductDetails/${slug}`}>
-      <div className="hover:scale-105 duration-300">
+      <div className="">
         <Image
           src={urlForImage(imgSrc).url()}
           alt="product1"
-          width={400}
+          width={300}
           height={400}
           className="object-cover h-[400px]"
         />

@@ -28,7 +28,7 @@ export default function ProductDetailsComp({ product }: { product: IProduct }) {
           body: JSON.stringify({
             product_id: product._id,
             quantity: quantity,
-            size: requireSize,
+            size: mySize,
           }),
         });
 
