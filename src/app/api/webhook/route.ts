@@ -21,7 +21,7 @@ const createOrder = async (products: Product[], amount: number) => {
     if (!res.ok) throw new Error("Can't make order.");
     return res;
   } catch (error) {
-    console.log("Error here:", error);
+    console.log("Error making order:", error);
   }
 };
 
@@ -31,16 +31,14 @@ export async function POST(request: Request) {
   const signature = request.headers.get("stripe-signature") as string;
 
   let event: Stripe.Event;
+
   try {
     event = stripe.webhooks.constructEvent(body, signature, endpointSecret);
     console.log("weebhook verified");
   } catch (err: any) {
     console.log("weebhook failed");
-    NextResponse.json(`Webhook Error: ${err.message}`);
-    return;
+    return NextResponse.json(`Webhook Error: ${err.message}`);
   }
-
-  // const event = stripe.webhooks.constructEvent(body, signature, secret);
 
   switch (event?.type) {
     case "payment_intent.succeeded":
@@ -63,17 +61,5 @@ export async function POST(request: Request) {
     default:
       console.log(`Unhandled event type ${event?.type}`);
   }
-
-  // if (event.type === "checkout.session.completed") {
-  //   console.log("session completed");
-  //   const customer = await stripe.customers.retrieve(
-  //     event.data.object.customer
-  //   );
-  //   const order = await createOrder(
-  //     JSON.parse(customer.metadata.cartItems),
-  //     customer.metadata.total_amount
-  //   );
-  //   if (!order?.ok) throw new Error("error making order");
-  // }
   return NextResponse.json({ result: event, ok: true });
 }
