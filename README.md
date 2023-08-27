@@ -11,6 +11,7 @@ This project is an interactive and user-friendly e-commerce website that offers 
 - Icons: Lucid React Icons
 - Content Management: Sanity
 - Checkout and Payment: Stripe integration via Sanity
+- Webhooks: Stripe webhooks to throw events and add orders
 - State Management: Context API
 - Notifications: React-hot-toast library
 
@@ -30,13 +31,13 @@ This project is an interactive and user-friendly e-commerce website that offers 
 
 7. **Checkout Process:** Users can proceed to checkout, entering necessary information. Successful payment redirects them to the home page, while an unsuccessful attempt returns them to the cart page.
 
-8. **Order Mangement:** Users orders will be stored in databse with their order details after payment is done, to ensure the delivery of correct items to users.
+8. **Order Mangement:** Users orders will be stored in database with their order details after payment is done. Webhooks are used to ensure the checkout successfull completion and orders in database.
 
 9. **User-Centric Experience:** The website focuses on enhancing user experience through smooth navigation, logical flow, and interactive design.
 
 This e-commerce website serves as a comprehensive platform, integrating advanced technologies to ensure an enjoyable and efficient shopping journey for users.
 
----
+---------------------------------------------------------------------------------------------------------------
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
