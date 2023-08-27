@@ -12,13 +12,17 @@ export default function ProductDetailsComp({ product }: { product: IProduct }) {
   const [quantity, setQuantity] = useState(1); // state to track quantity changes
   const { setCartCount } = useCart(); // context api's state to change cartCount state globally
   const [requireSize, setRequireSize] = useState<string>(); // size state
+  const [check, setCheck] = useState(false);
 
   const handleAddToCart = async () => {
+    setCheck(!check);
     // This function will insert an item to cart table in the databse, quantity and size is required
     // Toast notifications are used which will show loader and on sucess show show success notification
     // Cart count will be updated to the quantity added to previous cart count
-    if (!requireSize) toast.error("Please select a size!");
-    else {
+    if (!requireSize) {
+      toast.error("Please select a size!");
+      setCheck(false);
+    } else {
       const mySize = requireSize;
       setRequireSize("");
       try {
@@ -40,8 +44,12 @@ export default function ProductDetailsComp({ product }: { product: IProduct }) {
           id: toastId,
         });
         setCartCount((prevCount: number) => prevCount + quantity);
+        setRequireSize("");
+        setCheck(false);
       } catch (error) {
         console.log("Error adding to cart:", error);
+        setRequireSize("");
+        setCheck(false);
       }
     }
   };
@@ -103,9 +111,9 @@ export default function ProductDetailsComp({ product }: { product: IProduct }) {
             variant="outline"
             onClick={handleAddToCart}
             className={`flex justify-center items-center bg-black text-white py-3 gap-2 ${
-              !product.sizes ? "cursor-not-allowed pointer-events-none" : ""
+              check ? "cursor-not-allowed pointer-events-none" : ""
             }`}
-            disabled={!product.sizes}
+            disabled={check}
           >
             <ShoppingCart />
             Add to Cart
