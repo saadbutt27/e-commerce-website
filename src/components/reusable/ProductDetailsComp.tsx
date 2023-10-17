@@ -55,13 +55,13 @@ export default function ProductDetailsComp({ product }: { product: IProduct }) {
   };
 
   return (
-    <div className="flex flex-col md:flex-row justify-center md:items-center md:space-x-10 space-y-10 md:space-y-0">
+    <div className="flex flex-col sm:flex-row justify-center sm:items-center sm:space-x-10 space-y-10 sm:space-y-0">
       <Image
         src={urlForImage(product.image).url()}
         alt="product1"
         width={300}
         height={400}
-        className="object-cover h-[430px]"
+        className="object-cover h-[430px] w-full sm:w-[300px]"
       />
       <div className="flex flex-col space-y-8">
         <div>

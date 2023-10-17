@@ -27,7 +27,7 @@ export default async function FemaleProducts() {
       <h1 className="capitalize text-5xl text-center font-bold mb-10">
         Female Products
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-10">
         {data.map((product, index) => (
           <Product
             key={index}

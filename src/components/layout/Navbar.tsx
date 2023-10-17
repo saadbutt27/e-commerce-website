@@ -4,18 +4,29 @@ import Image from "next/image";
 import Logo from "../../../public/images/a_z.png";
 import Link from "next/link";
 import { useCart } from "@/components/context/CartContext";
+import { usePathname } from "next/navigation";
 
 export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
   const [toggleNav, setToggleNav] = useState(false); // make responsive navbar with hamburger menu
   const { cartCount, setCartCount } = useCart();
+  const pathname = usePathname();
+  const links = [
+    { linkName: "Male", linkPath: "/MaleProducts" },
+    { linkName: "Female", linkPath: "/FemaleProducts" },
+    { linkName: "Kids", linkPath: "/KidsProducts" },
+    { linkName: "All Products", linkPath: "/AllProducts" },
+  ];
   useEffect(() => {
     setCartCount(cartItemsCount);
   }, [cartItemsCount]);
+  const handleLinkClick = () => {
+    setToggleNav(false); // Close the sidebar when a link is clicked
+  };
   return (
     <header className="sticky top-0 bg-white py-4 px-8 md:px-24 w-full z-50 shadow-md">
       <nav className="flex items-center justify-between my-4 relative">
         <div>
-          <Link href={"/"}>
+          <Link href={"/"} onClick={handleLinkClick}>
             <Image src={Logo} width={200} height={200} alt="Logo" />
           </Link>
         </div>
@@ -63,7 +74,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
             </svg>
           </button>
           <div>
-            <Link href={"/Cart"}>
+            <Link href={"/Cart"} onClick={handleLinkClick}>
               <button className="bg-gray-100 rounded-full p-2 relative">
                 <svg
                   stroke="currentColor"
@@ -97,40 +108,44 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
           </div>
           <div>
             <ul className="text-lg font-semibold">
-              <li className="mb-6">
-                <Link href={"/MaleProducts"}>Male</Link>
-              </li>
-              <li className="mb-6">
-                <Link href={"/FemaleProducts"}>Female</Link>
-              </li>
-              <li className="mb-6">
-                <Link href={"/KidsProducts"}>Kids</Link>
-              </li>
-              <li className="mb-6">
-                <Link href={"/AllProducts"}>All Products</Link>
-              </li>
+              {links.map((link, index) => (
+                <li key={index} className="mb-6">
+                  <Link
+                    onClick={handleLinkClick}
+                    className={
+                      pathname === link.linkPath
+                        ? "text-blue-600"
+                        : "text-black"
+                    }
+                    href={link.linkPath}
+                  >
+                    {link.linkName}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
         {/* This one is for computer's view */}
         <div className="hidden md:block">
           <ul className="flex gap-x-10 text-lg font-semibold">
-            <li>
-              <Link href={"/MaleProducts"}>Male</Link>
-            </li>
-            <li>
-              <Link href={"/FemaleProducts"}>Female</Link>
-            </li>
-            <li>
-              <Link href={"/KidsProducts"}>Kids</Link>
-            </li>
-            <li>
-              <Link href={"/AllProducts"}>All Products</Link>
-            </li>
+            {links.map((link, index) => (
+              <li key={index}>
+                <Link
+                  onClick={handleLinkClick}
+                  className={
+                    pathname === link.linkPath ? "text-blue-600" : "text-black"
+                  }
+                  href={link.linkPath}
+                >
+                  {link.linkName}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="hidden md:block">
-          <Link href={"/Cart"}>
+          <Link href={"/Cart"} onClick={handleLinkClick}>
             <button className="bg-gray-100 rounded-full p-2 relative">
               <svg
                 stroke="currentColor"
