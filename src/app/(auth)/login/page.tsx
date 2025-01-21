@@ -49,7 +49,7 @@ export default function Login() {
                 <Button type="submit" className="bg-black text-white text-base">Login</Button>
                 <hr className="h-0.5 w-full bg-gray-300" />
                 <div className="flex items-center gap-2">
-                    <p className="text-lg">Don't have an account?</p>
+                    <p className="text-lg">Don&apos;t have an account?</p>
                     <Link href={"/signup"}>
                         <Button type="button" className="bg-black text-white text-base">Sign Up</Button>
                     </Link>
