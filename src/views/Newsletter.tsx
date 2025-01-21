@@ -15,11 +15,11 @@ export default function Newsletter({ id }: { id: string | undefined }) {
           cache: "no-store",
         }
       ).then((data) => {
-        console.log("first");
+        // console.log("first");
         setCartCount(0);
       });
     } else {
-      console.log("first 1");
+      // console.log("first 1");
     }
   }, []);
   return (

@@ -5,23 +5,41 @@ import Logo from "../../../public/images/a_z.png";
 import Link from "next/link";
 import { useCart } from "@/components/context/CartContext";
 import { usePathname } from "next/navigation";
+import { ChevronDown } from "lucide-react";
+import { logoutUser, fetchSession } from "@/app/actions";
+import toast from "react-hot-toast";
 
 export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
   const [toggleNav, setToggleNav] = useState(false); // make responsive navbar with hamburger menu
+  const { name, setName } = useCart()
   const { cartCount, setCartCount } = useCart();
   const pathname = usePathname();
+
   const links = [
     { linkName: "Male", linkPath: "/MaleProducts" },
     { linkName: "Female", linkPath: "/FemaleProducts" },
     { linkName: "Kids", linkPath: "/KidsProducts" },
     { linkName: "All Products", linkPath: "/AllProducts" },
   ];
+
   useEffect(() => {
     setCartCount(cartItemsCount);
   }, [cartItemsCount]);
+
   const handleLinkClick = () => {
     setToggleNav(false); // Close the sidebar when a link is clicked
   };
+
+  const handleLogout = async () => {
+    // console.log("Logging out")
+    const toastId = toast.loading("Logging out...");
+    await logoutUser()
+    setName("Login")
+    toast.success("Logged out", {
+      id: toastId,
+  });
+  };
+
   return (
     <header className="sticky top-0 bg-white py-4 px-8 md:px-24 w-full z-50 shadow-md">
       <nav className="flex items-center justify-between my-4 relative">
@@ -126,6 +144,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
             </ul>
           </div>
         </div>
+
         {/* This one is for computer's view */}
         <div className="hidden md:block">
           <ul className="flex gap-x-10 text-lg font-semibold">
@@ -144,7 +163,7 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
             ))}
           </ul>
         </div>
-        <div className="hidden md:block">
+        <div className="hidden md:gap-5 md:flex md:justify-start md:items-center">
           <Link href={"/Cart"} onClick={handleLinkClick}>
             <button className="bg-gray-100 rounded-full p-2 relative">
               <svg
@@ -176,6 +195,33 @@ export default function Navbar({ cartItemsCount }: { cartItemsCount: number }) {
               </div>
             </button>
           </Link>
+          {name === 'Login' ? 
+            <Link href={'/login'} className="flex flex-col justify-center items-center">
+              <button className="flex items-center gap-x-2 bg-gray-100 rounded-lg p-2 relative">
+                <p className="text-lg font-semibold">{name}</p>
+              </button>
+            </Link>
+          : 
+            <ul className="relative flex space-x-8 sm:space-x-12 text-lg font-medium text-gray-800">
+              <li className="group relative cursor-pointer select-none">
+                <div className="flex gap-x-1 items-center">
+                  <p className="text-lg font-semibold">{name}</p>
+                  <ChevronDown className="w-4 h-4 mt-1" />
+                </div>
+                <div className="sm:min-w-0 absolute right-0">
+                  <ul
+                    className="flex flex-col group-hover:max-h-max group-hover:py-2 max-h-0 w-24 overflow-hidden 
+                      duration-500 bg-slate-50 text-xs sm:text-base font-normal rounded-md
+                      group-hover:shadow-md px-1 group-hover:border border-transparent group-hover:border-slate-200 cursor-pointer"
+                  >
+                      <li className="p-1 shrink-0 duration-200">
+                        <button onClick={handleLogout} type="button">Logout</button>
+                      </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          }
         </div>
       </nav>
     </header>

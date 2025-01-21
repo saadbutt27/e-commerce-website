@@ -5,6 +5,7 @@ import { client } from "@/lib/sanityClient";
 import { Image as IImage } from "sanity";
 import { urlForImage } from "../../../../sanity/lib/image";
 import Stripe from "stripe";
+import { Product } from "@/lib/types";
 
 const key = process.env.STRIPE_SECRET_KEY || "";
 
@@ -41,10 +42,64 @@ const getData = async (id: string) => {
   }
 };
 
+
+const getProducts = async (user_id: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}api/cart?user_id=${user_id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!res.ok) throw new Error("Error fetching data");
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getSessionAndOrder = async (
+  amount: number,
+  delivery_charges: number,
+  user_id: string
+) => {
+  // const session = await stripe.checkout.sessions.retrieve(sessionId);
+  // console.log("MyProducts:", myProducts.data);
+  // console.log("MyProducts:", myProducts.data[0].price?.metadata);
+
+  // if (session && session.status === "complete") {
+    const products: Product[] = await getProducts(user_id);
+    // console.log("products:", products);
+    try {
+      if (products.length === 0) throw new Error("No products retrieved.");
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SITE_URL}api/order?user_id=${user_id}`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            order_amount: amount,
+            order_delivery_charges: delivery_charges,
+            products: products,
+          }),
+        }
+      );
+      // console.log("response:", res.ok);
+      if (!res.ok) throw new Error("Can't make order.");
+      // console.log("Status:", res.status);
+      // return session;
+    } catch (error) {
+      console.log("Error here:", error);
+    }
+  // }
+};
+
 export const POST = async (request: NextRequest) => {
   const body = await request.json();
   const user_id = cookies().get("user_id")?.value as string;
-  // console.log(body);
   try {
     // go to teh checkout page
     let cartItemDetails: ProductData[] = [];
@@ -62,6 +117,11 @@ export const POST = async (request: NextRequest) => {
         quantity: product.quantity,
       });
     }
+
+    let amount: number = cartItemDetails.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
     const customer = stripe.customers.create({
       metadata: {
         userId: user_id,
@@ -118,8 +178,11 @@ export const POST = async (request: NextRequest) => {
       cancel_url: `${request.headers.get("origin")}/Cart?cancelled=true`,
     });
 
+    const resOrder = await getSessionAndOrder(amount, body.order_delivery_charges, user_id)
+
     return NextResponse.json({ url: checkoutSession.url });
   } catch (error) {
     console.log("Something went wrong,", error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 };

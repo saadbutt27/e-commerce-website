@@ -6,7 +6,6 @@ import { ShoppingCart, Trash } from "lucide-react";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import toast from "react-hot-toast";
 import { Product } from "@/lib/types";
-import getStipePromise from "@/lib/stripe";
 import { useCart } from "@/components/context/CartContext";
 
 export default function Cart() {
@@ -46,7 +45,6 @@ export default function Cart() {
   const handleCheckOut = async (len: number) => {
     setCheck(!check);
     try {
-      const stripe = await getStipePromise();
       const res = await fetch(
         process.env.NEXT_PUBLIC_SITE_URL + "api/checkout",
         {
@@ -59,14 +57,29 @@ export default function Cart() {
           }),
         }
       );
+
+      // Check if the response is a redirect (status code 3xx)
+      if (res.redirected) {
+        // console.log("Redirecting to:", res.url);
+        window.location.href = res.url;
+        return toast.error("Failed to create an order.");
+      }
+
       if (!res.ok) {
+        const errorText = await res.text(); // Get the error text to log it
+        console.log('Error response:', errorText);
         setCheck(false);
         return toast.error("Failed to create an order.");
       }
+
       const { url } = await res.json();
+      // console.log('Redirecting to checkout URL:', url);
       window.location.href = url;
+
     } catch (error) {
-      console.log("Eror here:", error);
+        setCheck(false);
+        // console.log("Error here:", error);
+        toast.error(`Failed to create an order.`);
     }
   };
 
@@ -77,6 +90,8 @@ export default function Cart() {
     fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL}api/clear-cookies?user_id=${products[0].user_id}`,
       {
+        method: "DELETE",
+        body: JSON.stringify({products: products}),
         cache: "no-store",
       }
     )

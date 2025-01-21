@@ -65,7 +65,7 @@ export default async function ProductsList() {
         </Carousel>
       </div> */}
 
-      <div className=" w-full overflow-x-auto pb-6 pt-1">
+      <div className="w-full overflow-x-auto pb-6 pt-1">
         <ul className="flex animate-carousel gap-4">
           {data[0] &&
             data.map((product, i) => (

@@ -49,7 +49,7 @@ export default function CartItem(props: {
   useEffect(() => {
     if (product) {
       props.setTotalPrice(
-        (prevTotal: number) => product[0].price * props.quantity + prevTotal
+        (prevTotal: number) => product[0].price * props.quantity
       );
     }
   }, [product, props.quantity]);
